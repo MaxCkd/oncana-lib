@@ -1,0 +1,51 @@
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  margin-top: 60px;
+}
+
+.loader {
+  display: none;
+  background-color: aliceblue;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+}
+
+.loaderContent {
+  display: flex;
+  flex: 1 0;
+  height: 80%;
+  align-items: center;
+  justify-content: center;
+}
+
+#onboarding {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#Onboarding > input,
+select {
+  min-width: 70%;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+.checkboxes {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 1em;
+}
+
+.checkboxes > .label {
+  margin-right: 2em;
+}
+
+button {
+  margin: 2em;
+}

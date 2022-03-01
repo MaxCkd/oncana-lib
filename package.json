@@ -1,0 +1,26 @@
+{
+  "name": "oncana-lib",
+  "private": true,
+  "version": "0.0.0",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/oncana.umd.js",
+  "module": "./dist/oncana.es.js",
+  "exports": {
+    ".": {
+      "import": "./dist/oncana.es.js",
+      "require": "./dist/oncana.umd.js"
+    }
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "sass": "^1.49.9",
+    "typescript": "^4.5.4",
+    "vite": "^2.8.0"
+  }
+}
