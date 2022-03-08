@@ -1,14 +1,5 @@
 import { getUploadUrl, uploadToS3 } from "./api";
 
-const toBlob = (file: File) =>
-  new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onprogress = (e) => {};
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = () => reject(new Error("Error parsing file"));
-  });
-
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 
