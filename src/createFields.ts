@@ -1,45 +1,4 @@
-// Get Selectors
-const cancerTypeSelector = document.getElementById(
-  "select-cancer-type"
-) as HTMLSelectElement;
-const cancerStageSelector = document.getElementById(
-  "select-cancer-stage"
-) as HTMLSelectElement;
-const treatmentTypeSelector = document.getElementById(
-  "select-treatment-type"
-) as HTMLSelectElement;
-const treatmentStageSelector = document.getElementById(
-  "select-treatment-stage"
-) as HTMLSelectElement;
-const eatSelector = document.getElementById("select-eat") as HTMLSelectElement;
-const moveSelector = document.getElementById(
-  "select-move"
-) as HTMLSelectElement;
-
-// Get Checkboxes Wrapper
-const sideEffectWrapper = document.getElementById(
-  "checkboxes-side-effect"
-) as HTMLDivElement;
-const liveSelector = document.getElementById(
-  "checkboxes-live"
-) as HTMLSelectElement;
-
-// Get Collections
-const cancerTypeCollection =
-  document.getElementsByClassName("cancer-type-item");
-const cancerStageCollection =
-  document.getElementsByClassName("cancer-stage-item");
-const treatmentTypeCollection = document.getElementsByClassName(
-  "treatment-type-item"
-);
-const treatmentStageCollection = document.getElementsByClassName(
-  "treatment-stage-item"
-);
-const sideEffectCollection =
-  document.getElementsByClassName("side-effect-item");
-const categoryCollection = document.getElementsByClassName("category-item");
-
-const addOption = (
+export const addOption = (
   selector: HTMLSelectElement,
   value: string,
   name: string
@@ -49,7 +8,7 @@ const addOption = (
   }
 };
 
-const addCheckBox = (value: string, label: string, type: string) => {
+export const addCheckBox = (value: string, label: string, type: string) => {
   const domLabel = document.createElement(`label`);
   const input = document.createElement(`input`);
   input.type = "checkbox";
@@ -66,7 +25,7 @@ const addCheckBox = (value: string, label: string, type: string) => {
   return domLabel;
 };
 
-const mapCollectionSelector = (
+export const mapCollectionSelector = (
   collection: HTMLCollectionOf<any>,
   selector: HTMLSelectElement
 ) => {
@@ -75,7 +34,7 @@ const mapCollectionSelector = (
   });
 };
 
-const mapCollectionCheckBox = (
+export const mapCollectionCheckBox = (
   collection: HTMLCollectionOf<any>,
   wrapper: HTMLDivElement,
   type: string
@@ -85,34 +44,5 @@ const mapCollectionCheckBox = (
     const name = el.children[1].innerText;
     const checkBox = addCheckBox(value, name, type);
     wrapper.appendChild(checkBox);
-  });
-};
-
-export const createFieldsFromCollections = () => {
-  mapCollectionSelector(treatmentTypeCollection, treatmentTypeSelector);
-  mapCollectionSelector(treatmentStageCollection, treatmentStageSelector);
-  mapCollectionSelector(cancerTypeCollection, cancerTypeSelector);
-  mapCollectionSelector(cancerStageCollection, cancerStageSelector);
-  mapCollectionCheckBox(sideEffectCollection, sideEffectWrapper, "side-effect");
-
-  // For categories
-  Object.values(categoryCollection).map((el: any) => {
-    const type = el.children[2].innerText;
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
-    switch (type) {
-      case "Eat":
-        addOption(eatSelector, value, name);
-        break;
-      case "Move":
-        addOption(moveSelector, value, name);
-        break;
-      case "Live":
-        const liveBox = addCheckBox(value, name, "live");
-        liveSelector.appendChild(liveBox);
-        break;
-      default:
-        break;
-    }
   });
 };

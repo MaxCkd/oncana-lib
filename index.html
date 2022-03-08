@@ -7,6 +7,9 @@
     <link rel="stylesheet" href="./src/Styles/style.css" />
     <link rel="stylesheet" href="./src/Styles/select.css" />
     <link rel="stylesheet" href="./src/Styles/checkbox.css" />
+    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.umd.min.js"></script>
+    <!-- <script src="http://localhost:8008"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/ckd@master/dist/ckd.min.js"></script> -->
     <title>Vite App</title>
   </head>
   <body>
@@ -84,15 +87,12 @@
       </form>
       <img
         src="https://oncana-image-bucket--dev.s3.ap-southeast-2.amazonaws.com/Directory-Hero.jpg"
-        alt="chaud"
+        alt="No Picture"
       />
     </div>
-    <script type="module" src="/src/main.ts"></script>
-    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.es.min.js"></script>
-    <!-- <script src="http://localhost:8008"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/ckd@master/dist/ckd.min.js"></script> -->
+    <!-- <script type="module" src="/src/main.ts"></script> -->
     <script>
-      console.log("Oncana", Oncana.createFieldsFromCollections());
+      console.log("Oncana", oncana);
       // createFieldsFromCollections();
       // selector.form.addEventListener("submit", submitOnboardingForm);
     </script>

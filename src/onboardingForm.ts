@@ -1,7 +1,7 @@
 import { updateUser } from "./api";
 import { uploadImage } from "./uploadImage";
-import { loader, form } from "./selector";
-import { multiCheckboxFromEl, uniSelect } from "./utils";
+import { loader, form } from "./selectors";
+import { multiCheckboxFromEl, uniSelect } from "./getFields";
 import type { OnboardingFormElements, WebflowUser } from "./Types/type";
 
 export const submitOnboardingForm = async (event: SubmitEvent) => {

@@ -1,19 +1,33 @@
 const loader = document.querySelector(".loader");
 const form = document.querySelector("#onboarding");
-const inputFirstName = form.querySelector('input[name="first-name"]');
-const multiCheckBox = form.querySelectorAll('input[type="checkbox"]');
-const settings = document.querySelector(".settings");
-const btnSettings = document.querySelector(".btn-settings");
-var selector = /* @__PURE__ */ Object.freeze({
+const cancerType$1 = document.getElementById("select-cancer-type");
+const cancerStage$1 = document.getElementById("select-cancer-stage");
+const treatmentType$1 = document.getElementById("select-treatment-type");
+const treatmentStage$1 = document.getElementById("select-treatment-stage");
+const eat = document.getElementById("select-eat");
+const move = document.getElementById("select-move");
+const sideEffectWrapper = document.getElementById("checkboxes-side-effect");
+const live = document.getElementById("checkboxes-live");
+var selectors = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   loader,
   form,
-  inputFirstName,
-  multiCheckBox,
-  settings,
-  btnSettings
+  cancerType: cancerType$1,
+  cancerStage: cancerStage$1,
+  treatmentType: treatmentType$1,
+  treatmentStage: treatmentStage$1,
+  eat,
+  move,
+  sideEffectWrapper,
+  live
 });
+const cancerType = document.getElementsByClassName("cancer-type-item");
+const cancerStage = document.getElementsByClassName("cancer-stage-item");
+const treatmentType = document.getElementsByClassName("treatment-type-item");
+const treatmentStage = document.getElementsByClassName("treatment-stage-item");
+const sideEffect = document.getElementsByClassName("side-effect-item");
+const category = document.getElementsByClassName("category-item");
 const api = {}.API;
 const update = api + "/webflow";
 const getPresignedUrl = api + "/get-presigned-url";
@@ -103,23 +117,9 @@ const submitOnboardingForm = async (event) => {
       loader.style.display = "fixed";
   }
 };
-const cancerTypeSelector = document.getElementById("select-cancer-type");
-const cancerStageSelector = document.getElementById("select-cancer-stage");
-const treatmentTypeSelector = document.getElementById("select-treatment-type");
-const treatmentStageSelector = document.getElementById("select-treatment-stage");
-const eatSelector = document.getElementById("select-eat");
-const moveSelector = document.getElementById("select-move");
-const sideEffectWrapper = document.getElementById("checkboxes-side-effect");
-const liveSelector = document.getElementById("checkboxes-live");
-const cancerTypeCollection = document.getElementsByClassName("cancer-type-item");
-const cancerStageCollection = document.getElementsByClassName("cancer-stage-item");
-const treatmentTypeCollection = document.getElementsByClassName("treatment-type-item");
-const treatmentStageCollection = document.getElementsByClassName("treatment-stage-item");
-const sideEffectCollection = document.getElementsByClassName("side-effect-item");
-const categoryCollection = document.getElementsByClassName("category-item");
-const addOption = (selector2, value, name) => {
+const addOption = (selector, value, name) => {
   if (value && name) {
-    selector2.options.add(new Option(value, name));
+    selector.options.add(new Option(value, name));
   }
 };
 const addCheckBox = (value, label, type) => {
@@ -138,9 +138,9 @@ const addCheckBox = (value, label, type) => {
   domLabel.appendChild(text);
   return domLabel;
 };
-const mapCollectionSelector = (collection, selector2) => {
+const mapCollectionSelector = (collection, selector) => {
   Object.values(collection).map((el) => {
-    addOption(selector2, el.children[0].innerText, el.children[1].innerText);
+    addOption(selector, el.children[0].innerText, el.children[1].innerText);
   });
 };
 const mapCollectionCheckBox = (collection, wrapper, type) => {
@@ -152,27 +152,27 @@ const mapCollectionCheckBox = (collection, wrapper, type) => {
   });
 };
 const createFieldsFromCollections = () => {
-  mapCollectionSelector(treatmentTypeCollection, treatmentTypeSelector);
-  mapCollectionSelector(treatmentStageCollection, treatmentStageSelector);
-  mapCollectionSelector(cancerTypeCollection, cancerTypeSelector);
-  mapCollectionSelector(cancerStageCollection, cancerStageSelector);
-  mapCollectionCheckBox(sideEffectCollection, sideEffectWrapper, "side-effect");
-  Object.values(categoryCollection).map((el) => {
+  mapCollectionSelector(treatmentType, treatmentType$1);
+  mapCollectionSelector(treatmentStage, treatmentStage$1);
+  mapCollectionSelector(cancerType, cancerType$1);
+  mapCollectionSelector(cancerStage, cancerStage$1);
+  mapCollectionCheckBox(sideEffect, sideEffectWrapper, "side-effect");
+  Object.values(category).map((el) => {
     const type = el.children[2].innerText;
     const value = el.children[0].innerText;
     const name = el.children[1].innerText;
     switch (type) {
       case "Eat":
-        addOption(eatSelector, value, name);
+        addOption(eat, value, name);
         break;
       case "Move":
-        addOption(moveSelector, value, name);
+        addOption(move, value, name);
         break;
       case "Live":
         const liveBox = addCheckBox(value, name, "live");
-        liveSelector.appendChild(liveBox);
+        live.appendChild(liveBox);
         break;
     }
   });
 };
-export { createFieldsFromCollections, selector, submitOnboardingForm };
+export { createFieldsFromCollections, selectors as selector, submitOnboardingForm };
