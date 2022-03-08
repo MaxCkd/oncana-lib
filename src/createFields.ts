@@ -1,24 +1,3 @@
-import { getCollectionsApi, headers } from "./config";
-import { Collections, Item, Resp } from "./type";
-
-export const getCollectionsForm = async (): Promise<Resp> => {
-  // Get Collection Items names and Ids from our API
-  const res = await fetch(getCollectionsApi, {
-    method: "GET",
-    headers,
-  });
-
-  const data = await res.json();
-  if (res.ok) {
-    console.log("DATA", data);
-
-    return data;
-  } else {
-    const error = new Error(data);
-    return Promise.reject(error);
-  }
-};
-
 // Get Selectors
 const cancerTypeSelector = document.getElementById(
   "select-cancer-type"
@@ -32,15 +11,17 @@ const treatmentTypeSelector = document.getElementById(
 const treatmentStageSelector = document.getElementById(
   "select-treatment-stage"
 ) as HTMLSelectElement;
-const sideEffectSelector = document.getElementById(
-  "select-side-effect"
-) as HTMLSelectElement;
 const eatSelector = document.getElementById("select-eat") as HTMLSelectElement;
 const moveSelector = document.getElementById(
   "select-move"
 ) as HTMLSelectElement;
+
+// Get Checkboxes Wrapper
+const sideEffectWrapper = document.getElementById(
+  "checkboxes-side-effect"
+) as HTMLDivElement;
 const liveSelector = document.getElementById(
-  "select-live"
+  "checkboxes-live"
 ) as HTMLSelectElement;
 
 // Get Collections
@@ -68,6 +49,23 @@ const addOption = (
   }
 };
 
+const addCheckBox = (value: string, label: string, type: string) => {
+  const domLabel = document.createElement(`label`);
+  const input = document.createElement(`input`);
+  input.type = "checkbox";
+  input.name = value;
+  input.setAttribute("data-type", type);
+  const checkmark = document.createElement(`span`);
+  checkmark.className = "checkmark";
+  const text = document.createElement(`span`);
+  text.className = "checktext";
+  text.innerText = label;
+  domLabel.appendChild(input);
+  domLabel.appendChild(checkmark);
+  domLabel.appendChild(text);
+  return domLabel;
+};
+
 const mapCollectionSelector = (
   collection: HTMLCollectionOf<any>,
   selector: HTMLSelectElement
@@ -77,58 +75,44 @@ const mapCollectionSelector = (
   });
 };
 
-const createFromCollection = () => {
+const mapCollectionCheckBox = (
+  collection: HTMLCollectionOf<any>,
+  wrapper: HTMLDivElement,
+  type: string
+) => {
+  Object.values(collection).map((el) => {
+    const value = el.children[0].innerText;
+    const name = el.children[1].innerText;
+    const checkBox = addCheckBox(value, name, type);
+    wrapper.appendChild(checkBox);
+  });
+};
+
+export const createFieldsFromCollections = () => {
   mapCollectionSelector(treatmentTypeCollection, treatmentTypeSelector);
   mapCollectionSelector(treatmentStageCollection, treatmentStageSelector);
   mapCollectionSelector(cancerTypeCollection, cancerTypeSelector);
   mapCollectionSelector(cancerStageCollection, cancerStageSelector);
-  mapCollectionSelector(sideEffectCollection, sideEffectSelector);
+  mapCollectionCheckBox(sideEffectCollection, sideEffectWrapper, "side-effect");
 
   // For categories
   Object.values(categoryCollection).map((el: any) => {
     const type = el.children[2].innerText;
+    const value = el.children[0].innerText;
+    const name = el.children[1].innerText;
     switch (type) {
       case "Eat":
-        addOption(
-          eatSelector,
-          el.children[0].innerText,
-          el.children[1].innerText
-        );
+        addOption(eatSelector, value, name);
         break;
       case "Move":
-        addOption(
-          moveSelector,
-          el.children[0].innerText,
-          el.children[1].innerText
-        );
+        addOption(moveSelector, value, name);
         break;
       case "Live":
-        addOption(
-          liveSelector,
-          el.children[0].innerText,
-          el.children[1].innerText
-        );
+        const liveBox = addCheckBox(value, name, "live");
+        liveSelector.appendChild(liveBox);
         break;
       default:
         break;
     }
   });
-};
-
-const mapNewCollectionSelector = (
-  items: Item[],
-  selector: HTMLSelectElement
-) => {
-  items.map((el) => {
-    addOption(selector, el.name, el._id);
-  });
-};
-
-export const populateSelectFields = async (collections: Collections) => {
-  // Populate the Form fields
-  mapNewCollectionSelector(collections.sideEffects.items, sideEffectSelector);
-};
-
-export const populateCheckboxes = async (collections: Collections) => {
-    
 };

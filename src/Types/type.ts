@@ -23,11 +23,6 @@ export interface Collections {
   oncanaCategories: { items: Item[] };
 }
 
-export type Resp = {
-  message: string;
-  result: Collections;
-};
-
 export interface OnboardingFormElements extends HTMLFormControlsCollection {
   "webflow-id": HTMLInputElement;
   "first-name": HTMLInputElement;

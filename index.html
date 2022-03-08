@@ -8,7 +8,27 @@
   </head>
   <body>
     <div id="app">
+      <!-- Data Section -->
+      <div class="data-section">
+        <div class="side-effect-item">
+          <div class="side-effect-value">620b73ff8dc509df94f5ffb4</div>
+          <div class="side-effect-name">Tired</div>
+        </div>
+        <div class="side-effect-item">
+          <div class="side-effect-value">620b73f884257469fd4d6d24</div>
+          <div class="side-effect-name">Sore Mouth/Throat</div>
+        </div>
+        <div class="side-effect-item">
+          <div class="side-effect-value">620b73f142fee64f70fc3794</div>
+          <div class="side-effect-name">Sleep Problems</div>
+        </div>
+        <div class="side-effect-item">
+          <div class="side-effect-value">620b73eaf5f2215b198f88f9</div>
+          <div class="side-effect-name">Skin Problems</div>
+        </div>
+      </div>
       <div class="loader"><div class="loaderContent">Loading...</div></div>
+      <!-- Onboarding Form -->
       <h2 class="title">Onboarding Form</h2>
       <form id="onboarding">
         <input
@@ -36,11 +56,13 @@
         <input type="file" name="pic" />
         <!-- Gender -->
         <label> Gender</label>
-        <select name="gender" id="gender">
-          <option value="Male">Male</option>
-          <option value="Female">Female</option>
-          <option value="Other">Other</option>
-        </select>
+        <div class="select-wrapper">
+          <select class="select-input" name="gender" id="gender">
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
         <!-- Side Effect -->
         <label> Side Effects </label>
         <select name="side-effect" id="select-side-effect" multiple>
@@ -54,26 +76,13 @@
         </select>
         <!-- Check Box -->
         <label> Side Effects </label>
-        <div class="checkboxes">
-          <label>
-            <input type="checkbox" name="123" />
-            <span>Side Effect 1</span>
-          </label>
-          <label>
-            <input type="checkbox" name="234" />
-            <span>Side Effect 2</span>
-          </label>
-          <label>
-            <input type="checkbox" name="345" />
-            <span>Side Effect 3</span>
-          </label>
-          <label>
-            <input type="checkbox" name="456" />
-            <span>Side Effect 4</span>
-          </label>
-        </div>
+        <div id="checkboxes-side-effect"></div>
         <button type="submit">Submit</button>
       </form>
+      <img
+        src="https://oncana-image-bucket--dev.s3.ap-southeast-2.amazonaws.com/Directory-Hero.jpg"
+        alt="chaud"
+      />
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
