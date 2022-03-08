@@ -6,7 +6,7 @@ module.exports = defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, "src/main.ts"),
-      name: "Oncana",
+      name: "oncana",
       fileName: (format) => `oncana.${format}.js`,
     },
     // rollupOptions: {

@@ -1,6 +1,3 @@
-var style = "";
-var checkbox = "";
-var select = "";
 const loader = document.querySelector(".loader");
 const form = document.querySelector("#onboarding");
 const inputFirstName = form.querySelector('input[name="first-name"]');
@@ -178,6 +175,4 @@ const createFieldsFromCollections = () => {
     }
   });
 };
-createFieldsFromCollections();
-form.addEventListener("submit", submitOnboardingForm);
 export { createFieldsFromCollections, selector, submitOnboardingForm };

@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./src/Styles/style.css" />
+    <link rel="stylesheet" href="./src/Styles/select.css" />
+    <link rel="stylesheet" href="./src/Styles/checkbox.css" />
     <title>Vite App</title>
   </head>
   <body>
@@ -85,5 +88,13 @@
       />
     </div>
     <script type="module" src="/src/main.ts"></script>
+    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.es.min.js"></script>
+    <!-- <script src="http://localhost:8008"></script> -->
+    <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/ckd@master/dist/ckd.min.js"></script> -->
+    <script>
+      console.log("Oncana", Oncana.createFieldsFromCollections());
+      // createFieldsFromCollections();
+      // selector.form.addEventListener("submit", submitOnboardingForm);
+    </script>
   </body>
 </html>
