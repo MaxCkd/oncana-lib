@@ -28,25 +28,31 @@ export interface OnboardingFormElements extends HTMLFormControlsCollection {
   "first-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   dob: HTMLInputElement;
-  pic: HTMLInputElement;
+  postcode: HTMLInputElement;
+  pic?: HTMLInputElement;
   gender: HTMLSelectElement;
-  "side-effect": HTMLSelectElement;
+  "cancer-type"?: HTMLSelectElement;
+  "cancer-stage"?: HTMLSelectElement;
+  "treatment-type"?: HTMLSelectElement;
+  "treatment-stage"?: HTMLSelectElement;
+  eat?: HTMLSelectElement;
+  move?: HTMLSelectElement;
 }
 
-export type WebflowUser = {
+export type OncanaUser = {
   "webflow-id": string;
   "first-name": string;
   "last-name": string;
-  email: string;
-  phone: string;
   gender: string;
   dob: string;
   postcode: string;
-  "treatment-stages": string[];
-  "treatment-types": string[];
+  "treatment-stage": string;
+  "treatment-type": string;
   "cancer-stage": string;
   "cancer-type": string;
-  "oncana-categories": string[];
+  eat: string;
+  move: string;
+  live: string[];
   "side-effects": string[];
   image?: string | null;
 };

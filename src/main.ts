@@ -63,6 +63,8 @@ export const submitOnboardingForm = async (event: SubmitEvent) => {
       throw new Error("Network response was not OK");
     }
     state.showSuccess("Success");
+    const user = await res.json();
+    window.location.replace(window.location.href + "/user/" + user.result.slug);
   } catch (err) {
     state.showError("Could not update your information", err);
   } finally {
@@ -79,7 +81,7 @@ export const submitProfessionalForm = async (event: SubmitEvent) => {
   const body = mapProFieldToBody();
 
   let errorImg = "";
-  if (elements["pic"].files && elements["pic"].files[0]) {
+  if (elements["pic"]?.files && elements["pic"].files[0]) {
     try {
       const file = elements["pic"].files[0];
       const uploadedImageUrl = await uploadImage(file);

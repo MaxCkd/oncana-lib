@@ -1,10 +1,11 @@
-export const multiSelect = (options: HTMLOptionsCollection) =>
-  Object.values(options)
+export const multiSelect = (options?: HTMLOptionsCollection) =>
+  options &&
+  (Object.values(options)
     .map((el) => el.selected && el.value)
-    .filter((el) => el) as string[];
+    .filter((el) => el) as string[]);
 
-export const uniSelect = (options: HTMLOptionsCollection) =>
-  options[options.selectedIndex].value;
+export const uniSelect = (options?: HTMLOptionsCollection) =>
+  options && options[options.selectedIndex].value;
 
 export const multiCheckbox = (inputs: NodeListOf<HTMLInputElement>) =>
   Object.values(inputs)

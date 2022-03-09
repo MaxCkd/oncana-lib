@@ -1,4 +1,4 @@
-import { WebflowUser } from "./Types/type";
+import { OncanaUser } from "./Types/type";
 
 // export const api = "http://127.0.0.1:3000/dev";
 export const api = import.meta.env.DEV
@@ -34,7 +34,7 @@ export const uploadToS3 = (url: string, blob: Blob) => {
   });
 };
 
-export const updateUser = (body: Partial<WebflowUser>) => {
+export const updateUser = (body: Partial<OncanaUser>) => {
   return fetch(update, {
     method: "PATCH",
     headers,

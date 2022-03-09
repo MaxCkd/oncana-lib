@@ -47,6 +47,7 @@ const hideLoader = () => {
   loader.innerText = "";
 };
 const showError = (msg, err) => {
+  console.log(msg, err);
   errorMsg.style.display = "flex";
   errorMsg.innerText = msg;
   setTimeout(() => {
@@ -69,7 +70,7 @@ const hideSuccess = () => {
   successMsg.innerText = "";
 };
 const addOption = (selector2, value, name) => {
-  if (value && name) {
+  if (selector2 && value && name) {
     selector2.options.add(new Option(value, name));
   }
 };
@@ -110,8 +111,8 @@ var createFields = /* @__PURE__ */ Object.freeze({
   mapCollectionSelector,
   mapCollectionCheckBox
 });
-const multiSelect = (options) => Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
-const uniSelect = (options) => options[options.selectedIndex].value;
+const multiSelect = (options) => options && Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
+const uniSelect = (options) => options && options[options.selectedIndex].value;
 const multiCheckbox = (inputs) => Object.values(inputs).map((input) => input.checked && input.name).filter((i) => i);
 const multiCheckboxFromEl = (inputs, type) => {
   return Array.from(inputs).filter((input) => input.checked && (type ? input.getAttribute("data-type") === type : 1)).map((input) => input.name).filter((i) => i);
@@ -125,15 +126,24 @@ var getFields = /* @__PURE__ */ Object.freeze({
   multiCheckboxFromEl
 });
 const mapUserFieldToBody = () => {
+  var _a, _b, _c, _d, _e, _f;
   const elements = form.elements;
   const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
   const body = {
     "webflow-id": elements["webflow-id"].value,
     "first-name": elements["first-name"].value,
     "last-name": elements["last-name"].value,
+    gender: uniSelect(elements["gender"].options) || "",
     dob: elements["dob"].value,
-    gender: uniSelect(elements["gender"].options),
-    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
+    postcode: elements["postcode"].value,
+    "cancer-type": uniSelect((_a = elements["cancer-type"]) == null ? void 0 : _a.options) || "",
+    "cancer-stage": uniSelect((_b = elements["cancer-stage"]) == null ? void 0 : _b.options) || "",
+    "treatment-type": uniSelect((_c = elements["treatment-type"]) == null ? void 0 : _c.options) || "",
+    "treatment-stage": uniSelect((_d = elements["treatment-stage"]) == null ? void 0 : _d.options) || "",
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
+    eat: uniSelect((_e = elements["eat"]) == null ? void 0 : _e.options) || "",
+    move: uniSelect((_f = elements["move"]) == null ? void 0 : _f.options) || "",
+    live: multiCheckboxFromEl(checkboxes, "live")
   };
   return body;
 };
@@ -253,19 +263,22 @@ const submitOnboardingForm = async (event) => {
       throw new Error("Network response was not OK");
     }
     showSuccess("Success");
+    const user = await res.json();
+    window.location.replace(window.location.href + "/user/" + user.result.slug);
   } catch (err) {
-    showError("Could not update your information");
+    showError("Could not update your information", err);
   } finally {
     hideLoader();
   }
 };
 const submitProfessionalForm = async (event) => {
+  var _a;
   event.preventDefault();
   showLoader();
   const elements = form.elements;
   const body = mapProFieldToBody();
   let errorImg = "";
-  if (elements["pic"].files && elements["pic"].files[0]) {
+  if (((_a = elements["pic"]) == null ? void 0 : _a.files) && elements["pic"].files[0]) {
     try {
       const file = elements["pic"].files[0];
       const uploadedImageUrl = await uploadImage(file);
@@ -282,7 +295,7 @@ const submitProfessionalForm = async (event) => {
     }
     showSuccess("Success");
   } catch (err) {
-    showError("Could not update your information");
+    showError("Could not update your information", err);
   } finally {
     hideLoader();
   }

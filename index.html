@@ -29,6 +29,22 @@
           <div class="side-effect-value">620b73eaf5f2215b198f88f9</div>
           <div class="side-effect-name">Skin Problems</div>
         </div>
+        <div class="treatment-type-item">
+          <div class="treatment-type-name">Clinical Trials</div>
+          <div class="treatment-type-value">620b72ca49ef356c8fa82888</div>
+        </div>
+        <div class="treatment-type-item">
+          <div class="treatment-type-name">Chemotherapy</div>
+          <div class="treatment-type-value">620b72be88f93a7a03fc4b2b</div>
+        </div>
+        <div class="treatment-type-item">
+          <div class="treatment-type-name">Radiation Therapy</div>
+          <div class="treatment-type-value">620b72b58e74ca72218f65ec</div>
+        </div>
+        <div class="treatment-type-item">
+          <div class="treatment-type-name">Surgery</div>
+          <div class="treatment-type-value">620b72927371a810b987bc15</div>
+        </div>
       </div>
       <!-- Onboarding Form -->
       <h2 class="title">Onboarding Form</h2>
@@ -53,6 +69,8 @@
           min="1920-01-01"
           max="2024-12-31"
         />
+        <label>Postcode</label>
+        <input type="text" name="postcode" value="1111" />
         <!-- File -->
         <label> Profile Pic</label>
         <input id="image-input" type="file" name="pic" />
@@ -66,18 +84,10 @@
             <option value="Other">Other</option>
           </select>
         </div>
-        <!-- Side Effect -->
+        <!-- Treatment Type -->
         <label> Side Effects </label>
-        <select name="side-effect" id="select-side-effect" multiple>
-          <option value="620b74089c5936560a4dfe3a">
-            Urinary/Bladder Problems
-          </option>
-          <option value="620b73ff8dc509df94f5ffb4">Tired</option>
-          <option value="620b73f884257469fd4d6d24">Sore Mouth/Throat</option>
-          <option value="620b73f142fee64f70fc3794">Sleep Problems</option>
-          <option value="620b73eaf5f2215b198f88f9">Skin Problems</option>
-        </select>
-        <!-- Check Box -->
+        <select name="treatment-type" id="select-treatment-type"></select>
+        <!-- Side Effects Check Box -->
         <label> Side Effects </label>
         <div id="checkboxes-side-effect"></div>
         <div class="error-msg">Error</div>
@@ -92,16 +102,13 @@
     </div>
     <!-- <script type="module" src="/src/main.ts"></script> -->
     <!-- <script src="http://localhost:3001/dist/oncana.umd.js"></script> -->
-    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.umd.js"></script>
     <script>
       console.log("Oncana", oncana);
+      const { form, gf, cf, selector, upload } = oncana;
       oncana.createFieldsFromCollections();
-      oncana.upload.previewImage(selector.imageInput, selector.imagePreview);
-      const { form, gf, cf, selector } = oncana;
-      oncana.selector.form.addEventListener(
-        "submit",
-        oncana.submitOnboardingForm
-      );
+      // upload.previewImage(selector.imageInput, selector.imagePreview);
+      selector.form.addEventListener("submit", oncana.submitOnboardingForm);
     </script>
   </body>
 </html>

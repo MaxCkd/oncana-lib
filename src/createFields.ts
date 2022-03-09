@@ -3,7 +3,7 @@ export const addOption = (
   value: string,
   name: string
 ) => {
-  if (value && name) {
+  if (selector && value && name) {
     selector.options.add(new Option(value, name));
   }
 };

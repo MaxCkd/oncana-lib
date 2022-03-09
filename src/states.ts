@@ -14,6 +14,7 @@ export const hideLoader = () => {
 
 export const showError = (msg: string, err?: any) => {
   if (import.meta.env.DEV) console.log(msg, err);
+  console.log(msg, err);
   errorMsg.style.display = "flex";
   errorMsg.innerText = msg;
   setTimeout(() => {
