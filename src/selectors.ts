@@ -31,7 +31,7 @@ export const sideEffectWrapper = document.getElementById(
 ) as HTMLDivElement;
 export const live = document.getElementById(
   "checkboxes-live"
-) as HTMLSelectElement;
+) as HTMLDivElement;
 
 // Image Input & Preview
 export const imageInput = document.getElementById(

@@ -71,7 +71,7 @@ const hideSuccess = () => {
 };
 const addOption = (selector2, value, name) => {
   if (selector2 && value && name) {
-    selector2.options.add(new Option(value, name));
+    selector2.options.add(new Option(name, value));
   }
 };
 const addCheckBox = (value, label, type) => {
@@ -92,13 +92,15 @@ const addCheckBox = (value, label, type) => {
 };
 const mapCollectionSelector = (collection, selector2) => {
   Object.values(collection).map((el) => {
-    addOption(selector2, el.children[0].innerText, el.children[1].innerText);
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
+    addOption(selector2, value, name);
   });
 };
 const mapCollectionCheckBox = (collection, wrapper, type) => {
   Object.values(collection).map((el) => {
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
     const checkBox = addCheckBox(value, name, type);
     wrapper.appendChild(checkBox);
   });

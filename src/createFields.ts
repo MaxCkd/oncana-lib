@@ -4,7 +4,7 @@ export const addOption = (
   name: string
 ) => {
   if (selector && value && name) {
-    selector.options.add(new Option(value, name));
+    selector.options.add(new Option(name, value));
   }
 };
 
@@ -30,7 +30,9 @@ export const mapCollectionSelector = (
   selector: HTMLSelectElement
 ) => {
   Object.values(collection).map((el) => {
-    addOption(selector, el.children[0].innerText, el.children[1].innerText);
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
+    addOption(selector, value, name);
   });
 };
 
@@ -40,8 +42,8 @@ export const mapCollectionCheckBox = (
   type: string
 ) => {
   Object.values(collection).map((el) => {
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
     const checkBox = addCheckBox(value, name, type);
     wrapper.appendChild(checkBox);
   });
