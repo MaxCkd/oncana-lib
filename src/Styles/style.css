@@ -1,3 +1,10 @@
+:root {
+  --forest: #566862;
+  --mist-green: #717f76;
+  --cream: ##f9f5f1;
+  --parchment: ##e9dfd3;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -7,22 +14,6 @@
   margin-top: 60px;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.loader {
-  display: none;
-  background-color: aliceblue;
-  top: 0;
-  width: 100vw;
-  height: 100vh;
-}
-
-.loaderContent {
-  display: flex;
-  flex: 1 0;
-  height: 80%;
   align-items: center;
   justify-content: center;
 }
@@ -68,4 +59,46 @@ button {
 
 img {
   max-width: 200px;
+}
+
+.loader {
+  color: black;
+  background-color: rgb(241, 241, 115);
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  /* top: 0; */
+  /* position: absolute; */
+  height: 50px;
+  width: 100vw;
+}
+
+.error-msg {
+  color: white;
+  background-color: red;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  /* top: 0; */
+  /* position: absolute; */
+  height: 50px;
+  width: 100vw;
+}
+
+.success-msg {
+  color: white;
+  background-color: green;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+  /* top: 0;
+  position: absolute; */
+  height: 50px;
+  width: 100vw;
 }

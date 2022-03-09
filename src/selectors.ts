@@ -1,10 +1,15 @@
-export const loader = document.querySelector(".loader") as HTMLDivElement;
-
 export const form = document.querySelector<HTMLFormElement>(
   "#onboarding"
 ) as HTMLFormElement;
 
-// Get Selectors
+// Form States Display
+export const loader = document.querySelector(".loader") as HTMLDivElement;
+export const errorMsg = document.querySelector(".error-msg") as HTMLDivElement;
+export const successMsg = document.querySelector(
+  ".success-msg"
+) as HTMLDivElement;
+
+// Get Selects inputs
 export const cancerType = document.getElementById(
   "select-cancer-type"
 ) as HTMLSelectElement;
@@ -27,3 +32,11 @@ export const sideEffectWrapper = document.getElementById(
 export const live = document.getElementById(
   "checkboxes-live"
 ) as HTMLSelectElement;
+
+// Image Input & Preview
+export const imageInput = document.getElementById(
+  "image-input"
+) as HTMLInputElement;
+export const imagePreview = document.getElementById(
+  "image-preview"
+) as HTMLImageElement;

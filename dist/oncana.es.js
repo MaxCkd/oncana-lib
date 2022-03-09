@@ -1,5 +1,7 @@
-const loader = document.querySelector(".loader");
 const form = document.querySelector("#onboarding");
+const loader = document.querySelector(".loader");
+const errorMsg = document.querySelector(".error-msg");
+const successMsg = document.querySelector(".success-msg");
 const cancerType$1 = document.getElementById("select-cancer-type");
 const cancerStage$1 = document.getElementById("select-cancer-stage");
 const treatmentType$1 = document.getElementById("select-treatment-type");
@@ -8,11 +10,15 @@ const eat = document.getElementById("select-eat");
 const move = document.getElementById("select-move");
 const sideEffectWrapper = document.getElementById("checkboxes-side-effect");
 const live = document.getElementById("checkboxes-live");
-var selectors = /* @__PURE__ */ Object.freeze({
+const imageInput = document.getElementById("image-input");
+const imagePreview = document.getElementById("image-preview");
+var selector = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  loader,
   form,
+  loader,
+  errorMsg,
+  successMsg,
   cancerType: cancerType$1,
   cancerStage: cancerStage$1,
   treatmentType: treatmentType$1,
@@ -20,7 +26,9 @@ var selectors = /* @__PURE__ */ Object.freeze({
   eat,
   move,
   sideEffectWrapper,
-  live
+  live,
+  imageInput,
+  imagePreview
 });
 const cancerType = document.getElementsByClassName("cancer-type-item");
 const cancerStage = document.getElementsByClassName("cancer-stage-item");
@@ -28,7 +36,121 @@ const treatmentType = document.getElementsByClassName("treatment-type-item");
 const treatmentStage = document.getElementsByClassName("treatment-stage-item");
 const sideEffect = document.getElementsByClassName("side-effect-item");
 const category = document.getElementsByClassName("category-item");
-const api = {}.API;
+const showLoader = () => {
+  hideError();
+  hideSuccess();
+  loader.style.display = "flex";
+  loader.innerText = "Loading";
+};
+const hideLoader = () => {
+  loader.style.display = "none";
+  loader.innerText = "";
+};
+const showError = (msg, err) => {
+  errorMsg.style.display = "flex";
+  errorMsg.innerText = msg;
+  setTimeout(() => {
+    hideError();
+  }, 3e3);
+};
+const hideError = () => {
+  errorMsg.style.display = "none";
+  errorMsg.innerText = "";
+};
+const showSuccess = (msg) => {
+  successMsg.style.display = "flex";
+  successMsg.innerText = msg;
+  setTimeout(() => {
+    hideSuccess();
+  }, 3e3);
+};
+const hideSuccess = () => {
+  successMsg.style.display = "none";
+  successMsg.innerText = "";
+};
+const addOption = (selector2, value, name) => {
+  if (value && name) {
+    selector2.options.add(new Option(value, name));
+  }
+};
+const addCheckBox = (value, label, type) => {
+  const domLabel = document.createElement(`label`);
+  const input = document.createElement(`input`);
+  input.type = "checkbox";
+  input.name = value;
+  input.setAttribute("data-type", type);
+  const checkmark = document.createElement(`span`);
+  checkmark.className = "checkmark";
+  const text = document.createElement(`span`);
+  text.className = "checktext";
+  text.innerText = label;
+  domLabel.appendChild(input);
+  domLabel.appendChild(checkmark);
+  domLabel.appendChild(text);
+  return domLabel;
+};
+const mapCollectionSelector = (collection, selector2) => {
+  Object.values(collection).map((el) => {
+    addOption(selector2, el.children[0].innerText, el.children[1].innerText);
+  });
+};
+const mapCollectionCheckBox = (collection, wrapper, type) => {
+  Object.values(collection).map((el) => {
+    const value = el.children[0].innerText;
+    const name = el.children[1].innerText;
+    const checkBox = addCheckBox(value, name, type);
+    wrapper.appendChild(checkBox);
+  });
+};
+var createFields = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  addOption,
+  addCheckBox,
+  mapCollectionSelector,
+  mapCollectionCheckBox
+});
+const multiSelect = (options) => Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
+const uniSelect = (options) => options[options.selectedIndex].value;
+const multiCheckbox = (inputs) => Object.values(inputs).map((input) => input.checked && input.name).filter((i) => i);
+const multiCheckboxFromEl = (inputs, type) => {
+  return Array.from(inputs).filter((input) => input.checked && (type ? input.getAttribute("data-type") === type : 1)).map((input) => input.name).filter((i) => i);
+};
+var getFields = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  multiSelect,
+  uniSelect,
+  multiCheckbox,
+  multiCheckboxFromEl
+});
+const mapUserFieldToBody = () => {
+  const elements = form.elements;
+  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const body = {
+    "webflow-id": elements["webflow-id"].value,
+    "first-name": elements["first-name"].value,
+    "last-name": elements["last-name"].value,
+    dob: elements["dob"].value,
+    gender: uniSelect(elements["gender"].options),
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
+  };
+  return body;
+};
+const mapProFieldToBody = () => {
+  const elements = form.elements;
+  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const body = {
+    "webflow-id": elements["webflow-id"].value,
+    "first-name": elements["first-name"].value,
+    "last-name": elements["last-name"].value,
+    dob: elements["dob"].value,
+    gender: uniSelect(elements["gender"].options),
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
+  };
+  return body;
+};
+const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 const update = api + "/webflow";
 const getPresignedUrl = api + "/get-presigned-url";
 const headers = {
@@ -61,6 +183,14 @@ const updateUser = (body) => {
     body: JSON.stringify(body)
   });
 };
+var api$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  api,
+  getUploadUrl,
+  uploadToS3,
+  updateUser
+});
 const fileToBlob = async (file) => new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 const uploadImage = async (file) => {
   const [blob, responseUrlUpload] = await Promise.all([
@@ -75,82 +205,20 @@ const uploadImage = async (file) => {
     throw new Error("Could not upload the image");
   return responseUpload.url;
 };
-const uniSelect = (options) => options[options.selectedIndex].value;
-const multiCheckboxFromEl = (inputs, type) => {
-  return Array.from(inputs).filter((input) => input.checked && (type ? input.getAttribute("data-type") === type : 1)).map((input) => input.name).filter((i) => i);
-};
-const submitOnboardingForm = async (event) => {
-  event.preventDefault();
-  if (loader)
-    loader.style.display = "fixed";
-  const elements = form.elements;
-  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
-  const body = {
-    "webflow-id": elements["webflow-id"].value,
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
-    dob: elements["dob"].value,
-    gender: uniSelect(elements["gender"].options),
-    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
-  };
-  if (elements["pic"].files && elements["pic"].files[0]) {
-    try {
-      const file = elements["pic"].files[0];
-      const uploadedImageUrl = await uploadImage(file);
-      console.log("Image", uploadedImageUrl);
-      body.image = uploadedImageUrl;
-    } catch (err) {
-      console.log(err);
-    }
-  }
-  try {
-    const res = await updateUser(body);
-    if (!res.ok) {
-      console.log("Error");
-      throw new Error("Network response was not OK");
-    }
-    console.log("Success");
-  } catch (err) {
-    console.log(err);
-  } finally {
-    if (loader)
-      loader.style.display = "fixed";
-  }
-};
-const addOption = (selector, value, name) => {
-  if (value && name) {
-    selector.options.add(new Option(value, name));
-  }
-};
-const addCheckBox = (value, label, type) => {
-  const domLabel = document.createElement(`label`);
-  const input = document.createElement(`input`);
-  input.type = "checkbox";
-  input.name = value;
-  input.setAttribute("data-type", type);
-  const checkmark = document.createElement(`span`);
-  checkmark.className = "checkmark";
-  const text = document.createElement(`span`);
-  text.className = "checktext";
-  text.innerText = label;
-  domLabel.appendChild(input);
-  domLabel.appendChild(checkmark);
-  domLabel.appendChild(text);
-  return domLabel;
-};
-const mapCollectionSelector = (collection, selector) => {
-  Object.values(collection).map((el) => {
-    addOption(selector, el.children[0].innerText, el.children[1].innerText);
+const previewImage = (imageInput2, imagePreview2) => {
+  imageInput2.addEventListener("change", (event) => {
+    imagePreview2.src = URL.createObjectURL(event.target.files[0]);
+  });
+  imagePreview2.addEventListener("load", () => {
+    URL.revokeObjectURL(imagePreview2.src);
   });
 };
-const mapCollectionCheckBox = (collection, wrapper, type) => {
-  Object.values(collection).map((el) => {
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
-    const checkBox = addCheckBox(value, name, type);
-    wrapper.appendChild(checkBox);
-  });
-};
+var uploadImage$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  uploadImage,
+  previewImage
+});
 const createFieldsFromCollections = () => {
   mapCollectionSelector(treatmentType, treatmentType$1);
   mapCollectionSelector(treatmentStage, treatmentStage$1);
@@ -175,4 +243,48 @@ const createFieldsFromCollections = () => {
     }
   });
 };
-export { createFieldsFromCollections, selectors as selector, submitOnboardingForm };
+const submitOnboardingForm = async (event) => {
+  event.preventDefault();
+  showLoader();
+  try {
+    const body = mapUserFieldToBody();
+    const res = await updateUser(body);
+    if (!res.ok) {
+      throw new Error("Network response was not OK");
+    }
+    showSuccess("Success");
+  } catch (err) {
+    showError("Could not update your information");
+  } finally {
+    hideLoader();
+  }
+};
+const submitProfessionalForm = async (event) => {
+  event.preventDefault();
+  showLoader();
+  const elements = form.elements;
+  const body = mapProFieldToBody();
+  let errorImg = "";
+  if (elements["pic"].files && elements["pic"].files[0]) {
+    try {
+      const file = elements["pic"].files[0];
+      const uploadedImageUrl = await uploadImage(file);
+      body.image = uploadedImageUrl;
+    } catch (err) {
+      errorImg = "Could not upload your image";
+      console.log(errorImg, err);
+    }
+  }
+  try {
+    const res = await updateUser(body);
+    if (!res.ok) {
+      throw new Error("Network response was not OK");
+    }
+    showSuccess("Success");
+  } catch (err) {
+    showError("Could not update your information");
+  } finally {
+    hideLoader();
+  }
+};
+export { api$1 as api, createFields as cf, createFieldsFromCollections, getFields as gf, selector, submitOnboardingForm, submitProfessionalForm, uploadImage$1 as upload };

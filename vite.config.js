@@ -9,6 +9,9 @@ module.exports = defineConfig({
       name: "oncana",
       fileName: (format) => `oncana.${format}.js`,
     },
+    server: {
+      port: 3001,
+    },
     // rollupOptions: {
     //   // make sure to externalize deps that shouldn't be bundled
     //   // into your library

@@ -30,7 +30,6 @@
           <div class="side-effect-name">Skin Problems</div>
         </div>
       </div>
-      <div class="loader"><div class="loaderContent">Loading...</div></div>
       <!-- Onboarding Form -->
       <h2 class="title">Onboarding Form</h2>
       <form id="onboarding">
@@ -56,7 +55,8 @@
         />
         <!-- File -->
         <label> Profile Pic</label>
-        <input type="file" name="pic" />
+        <input id="image-input" type="file" name="pic" />
+        <img id="image-preview" src="#" alt="image preview" />
         <!-- Gender -->
         <label> Gender</label>
         <div class="select-wrapper">
@@ -80,6 +80,9 @@
         <!-- Check Box -->
         <label> Side Effects </label>
         <div id="checkboxes-side-effect"></div>
+        <div class="error-msg">Error</div>
+        <div class="loader">Wait</div>
+        <div class="success-msg">Success</div>
         <button type="submit">Submit</button>
       </form>
       <img
@@ -88,12 +91,13 @@
       />
     </div>
     <!-- <script type="module" src="/src/main.ts"></script> -->
+    <!-- <script src="http://localhost:3001/dist/oncana.umd.js"></script> -->
     <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib@master/dist/oncana.umd.min.js"></script>
-    <!-- <script src="http://localhost:8008"></script> -->
-    <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/ckd@master/dist/ckd.min.js"></script> -->
     <script>
       console.log("Oncana", oncana);
       oncana.createFieldsFromCollections();
+      oncana.upload.previewImage(selector.imageInput, selector.imagePreview);
+      const { form, gf, cf, selector } = oncana;
       oncana.selector.form.addEventListener(
         "submit",
         oncana.submitOnboardingForm
