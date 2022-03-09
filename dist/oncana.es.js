@@ -302,4 +302,4 @@ const submitProfessionalForm = async (event) => {
     hideLoader();
   }
 };
-export { api$1 as api, createFields as cf, createFieldsFromCollections, getFields as gf, selector, submitOnboardingForm, submitProfessionalForm, uploadImage$1 as upload };
+export { api$1 as api, createFields as cf, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, selector, submitOnboardingForm, submitProfessionalForm, uploadImage$1 as upload };

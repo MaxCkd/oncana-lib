@@ -19,6 +19,8 @@ export * as api from "./api";
 export * as upload from "./uploadImage";
 export * as selector from "./selectors";
 
+export { mapUserFieldToBody } from "./onboardingForm";
+
 export const createFieldsFromCollections = () => {
   mapCollectionSelector(collection.treatmentType, selector.treatmentType);
   mapCollectionSelector(collection.treatmentStage, selector.treatmentStage);
