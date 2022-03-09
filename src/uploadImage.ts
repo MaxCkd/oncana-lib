@@ -1,5 +1,7 @@
 import { getUploadUrl, uploadToS3 } from "./api";
 
+const allowedMimes = ["image/jpeg", "image/png", "image/jpg", "image/gif"];
+
 const fileToBlob = async (file: File) =>
   new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 
