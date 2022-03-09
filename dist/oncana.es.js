@@ -238,9 +238,9 @@ const createFieldsFromCollections = () => {
   mapCollectionSelector(cancerStage, cancerStage$1);
   mapCollectionCheckBox(sideEffect, sideEffectWrapper, "side-effect");
   Object.values(category).map((el) => {
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
     const type = el.children[2].innerText;
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
     switch (type) {
       case "Eat":
         addOption(eat, value, name);

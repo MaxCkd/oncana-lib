@@ -32,9 +32,9 @@ export const createFieldsFromCollections = () => {
 
   // For categories
   Object.values(collection.category).map((el: any) => {
+    const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
     const type = el.children[2].innerText;
-    const value = el.children[0].innerText;
-    const name = el.children[1].innerText;
     switch (type) {
       case "Eat":
         addOption(selector.eat, value, name);
