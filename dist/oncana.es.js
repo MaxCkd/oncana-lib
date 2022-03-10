@@ -36,7 +36,7 @@ const treatmentType = document.getElementsByClassName("treatment-type-item");
 const treatmentStage = document.getElementsByClassName("treatment-stage-item");
 const sideEffect = document.getElementsByClassName("side-effect-item");
 const category = document.getElementsByClassName("category-item");
-const api = "http://127.0.0.1:3000/dev";
+const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 const update = api + "/webflow";
 const getPresignedUrl = api + "/get-presigned-url";
 const headers = {
@@ -258,8 +258,8 @@ const submitOnboardingForm = async (event) => {
   showLoader();
   try {
     const body = mapUserFieldToBody();
-    let memberstackId = "6229092f36ca830004d459b4";
-    body["memberstack-id"] = memberstackId;
+    let webflowId = "620f78370eeeb2cc10a23e94";
+    body["webflow-id"] = webflowId;
     const res = await updateUser(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
