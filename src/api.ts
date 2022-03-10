@@ -1,9 +1,9 @@
 import { OncanaUser } from "./Types/type";
 
-// export const api = "http://127.0.0.1:3000/dev";
-export const api = import.meta.env.DEV
-  ? "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev"
-  : "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
+export const api = "http://127.0.0.1:3000/dev";
+// export const api = import.meta.env.DEV
+//   ? "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev"
+//   : "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 
 const update = api + "/webflow";
 const getPresignedUrl = api + "/get-presigned-url";

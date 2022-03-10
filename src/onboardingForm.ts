@@ -9,13 +9,12 @@ export const mapUserFieldToBody = () => {
     `input[type="checkbox"]`
   ) as NodeListOf<HTMLInputElement>;
 
-  const body: OncanaUser = {
-    "webflow-id": elements["webflow-id"].value,
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
+  const body: Partial<OncanaUser> = {
+    "first-name": elements["first-name"]?.value || "",
+    "last-name": elements["last-name"]?.value || "",
     gender: uniSelect(elements["gender"].options) || "",
-    dob: elements["dob"].value,
-    postcode: elements["postcode"].value,
+    dob: elements["dob"]?.value || "",
+    postcode: elements["postcode"]?.value || "",
     "cancer-type": uniSelect(elements["cancer-type"]?.options) || "",
     "cancer-stage": uniSelect(elements["cancer-stage"]?.options) || "",
     "treatment-type": uniSelect(elements["treatment-type"]?.options) || "",
@@ -37,7 +36,6 @@ export const mapProFieldToBody = () => {
   ) as NodeListOf<HTMLInputElement>;
 
   const body: Partial<OncanaUser> = {
-    "webflow-id": elements["webflow-id"].value,
     "first-name": elements["first-name"].value,
     "last-name": elements["last-name"].value,
     dob: elements["dob"].value,

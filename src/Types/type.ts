@@ -24,7 +24,7 @@ export interface Collections {
 }
 
 export interface OnboardingFormElements extends HTMLFormControlsCollection {
-  "webflow-id": HTMLInputElement;
+  // "webflow-id"?: HTMLInputElement;
   "first-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   dob: HTMLInputElement;
@@ -40,6 +40,7 @@ export interface OnboardingFormElements extends HTMLFormControlsCollection {
 }
 
 export type OncanaUser = {
+  "memberstack-id": string;
   "webflow-id": string;
   "first-name": string;
   "last-name": string;

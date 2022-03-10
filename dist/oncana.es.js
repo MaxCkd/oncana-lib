@@ -36,6 +36,47 @@ const treatmentType = document.getElementsByClassName("treatment-type-item");
 const treatmentStage = document.getElementsByClassName("treatment-stage-item");
 const sideEffect = document.getElementsByClassName("side-effect-item");
 const category = document.getElementsByClassName("category-item");
+const api = "http://127.0.0.1:3000/dev";
+const update = api + "/webflow";
+const getPresignedUrl = api + "/get-presigned-url";
+const headers = {
+  "Content-Type": "application/json",
+  Accept: "*"
+};
+const getUploadUrl = (filename, filetype) => {
+  return fetch(getPresignedUrl, {
+    method: "POST",
+    body: JSON.stringify({
+      filename,
+      filetype
+    })
+  });
+};
+const uploadToS3 = (url, blob) => {
+  return fetch(url, {
+    method: "PUT",
+    headers: {
+      Accept: "*",
+      "Content-Type": "image/png"
+    },
+    body: blob
+  });
+};
+const updateUser = (body) => {
+  return fetch(update, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body)
+  });
+};
+var api$1 = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  api,
+  getUploadUrl,
+  uploadToS3,
+  updateUser
+});
 const showLoader = () => {
   hideError();
   hideSuccess();
@@ -105,103 +146,13 @@ const mapCollectionCheckBox = (collection, wrapper, type) => {
     wrapper.appendChild(checkBox);
   });
 };
-var createFields = /* @__PURE__ */ Object.freeze({
+var cf = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   addOption,
   addCheckBox,
   mapCollectionSelector,
   mapCollectionCheckBox
-});
-const multiSelect = (options) => options && Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
-const uniSelect = (options) => options && options[options.selectedIndex].value;
-const multiCheckbox = (inputs) => Object.values(inputs).map((input) => input.checked && input.name).filter((i) => i);
-const multiCheckboxFromEl = (inputs, type) => {
-  return Array.from(inputs).filter((input) => input.checked && (type ? input.getAttribute("data-type") === type : 1)).map((input) => input.name).filter((i) => i);
-};
-var getFields = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  multiSelect,
-  uniSelect,
-  multiCheckbox,
-  multiCheckboxFromEl
-});
-const mapUserFieldToBody = () => {
-  var _a, _b, _c, _d, _e, _f;
-  const elements = form.elements;
-  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
-  const body = {
-    "webflow-id": elements["webflow-id"].value,
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
-    gender: uniSelect(elements["gender"].options) || "",
-    dob: elements["dob"].value,
-    postcode: elements["postcode"].value,
-    "cancer-type": uniSelect((_a = elements["cancer-type"]) == null ? void 0 : _a.options) || "",
-    "cancer-stage": uniSelect((_b = elements["cancer-stage"]) == null ? void 0 : _b.options) || "",
-    "treatment-type": uniSelect((_c = elements["treatment-type"]) == null ? void 0 : _c.options) || "",
-    "treatment-stage": uniSelect((_d = elements["treatment-stage"]) == null ? void 0 : _d.options) || "",
-    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
-    eat: uniSelect((_e = elements["eat"]) == null ? void 0 : _e.options) || "",
-    move: uniSelect((_f = elements["move"]) == null ? void 0 : _f.options) || "",
-    live: multiCheckboxFromEl(checkboxes, "live")
-  };
-  return body;
-};
-const mapProFieldToBody = () => {
-  const elements = form.elements;
-  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
-  const body = {
-    "webflow-id": elements["webflow-id"].value,
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
-    dob: elements["dob"].value,
-    gender: uniSelect(elements["gender"].options),
-    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
-  };
-  return body;
-};
-const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
-const update = api + "/webflow";
-const getPresignedUrl = api + "/get-presigned-url";
-const headers = {
-  "Content-Type": "application/json",
-  Accept: "*"
-};
-const getUploadUrl = (filename, filetype) => {
-  return fetch(getPresignedUrl, {
-    method: "POST",
-    body: JSON.stringify({
-      filename,
-      filetype
-    })
-  });
-};
-const uploadToS3 = (url, blob) => {
-  return fetch(url, {
-    method: "PUT",
-    headers: {
-      Accept: "*",
-      "Content-Type": "image/png"
-    },
-    body: blob
-  });
-};
-const updateUser = (body) => {
-  return fetch(update, {
-    method: "PATCH",
-    headers,
-    body: JSON.stringify(body)
-  });
-};
-var api$1 = /* @__PURE__ */ Object.freeze({
-  __proto__: null,
-  [Symbol.toStringTag]: "Module",
-  api,
-  getUploadUrl,
-  uploadToS3,
-  updateUser
 });
 const fileToBlob = async (file) => new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 const uploadImage = async (file) => {
@@ -225,12 +176,59 @@ const previewImage = (imageInput2, imagePreview2) => {
     URL.revokeObjectURL(imagePreview2.src);
   });
 };
-var uploadImage$1 = /* @__PURE__ */ Object.freeze({
+var upload = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   uploadImage,
   previewImage
 });
+const multiSelect = (options) => options && Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
+const uniSelect = (options) => options && options[options.selectedIndex].value;
+const multiCheckbox = (inputs) => Object.values(inputs).map((input) => input.checked && input.name).filter((i) => i);
+const multiCheckboxFromEl = (inputs, type) => {
+  return Array.from(inputs).filter((input) => input.checked && (type ? input.getAttribute("data-type") === type : 1)).map((input) => input.name).filter((i) => i);
+};
+var getFields = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  multiSelect,
+  uniSelect,
+  multiCheckbox,
+  multiCheckboxFromEl
+});
+const mapUserFieldToBody = () => {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  const elements = form.elements;
+  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const body = {
+    "first-name": ((_a = elements["first-name"]) == null ? void 0 : _a.value) || "",
+    "last-name": ((_b = elements["last-name"]) == null ? void 0 : _b.value) || "",
+    gender: uniSelect(elements["gender"].options) || "",
+    dob: ((_c = elements["dob"]) == null ? void 0 : _c.value) || "",
+    postcode: ((_d = elements["postcode"]) == null ? void 0 : _d.value) || "",
+    "cancer-type": uniSelect((_e = elements["cancer-type"]) == null ? void 0 : _e.options) || "",
+    "cancer-stage": uniSelect((_f = elements["cancer-stage"]) == null ? void 0 : _f.options) || "",
+    "treatment-type": uniSelect((_g = elements["treatment-type"]) == null ? void 0 : _g.options) || "",
+    "treatment-stage": uniSelect((_h = elements["treatment-stage"]) == null ? void 0 : _h.options) || "",
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
+    eat: uniSelect((_i = elements["eat"]) == null ? void 0 : _i.options) || "",
+    move: uniSelect((_j = elements["move"]) == null ? void 0 : _j.options) || "",
+    live: multiCheckboxFromEl(checkboxes, "live")
+  };
+  return body;
+};
+const mapProFieldToBody = () => {
+  const elements = form.elements;
+  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const body = {
+    "first-name": elements["first-name"].value,
+    "last-name": elements["last-name"].value,
+    dob: elements["dob"].value,
+    gender: uniSelect(elements["gender"].options),
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
+  };
+  return body;
+};
 const createFieldsFromCollections = () => {
   mapCollectionSelector(treatmentType, treatmentType$1);
   mapCollectionSelector(treatmentStage, treatmentStage$1);
@@ -260,6 +258,8 @@ const submitOnboardingForm = async (event) => {
   showLoader();
   try {
     const body = mapUserFieldToBody();
+    let memberstackId = "6229092f36ca830004d459b4";
+    body["memberstack-id"] = memberstackId;
     const res = await updateUser(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
@@ -302,4 +302,4 @@ const submitProfessionalForm = async (event) => {
     hideLoader();
   }
 };
-export { api$1 as api, createFields as cf, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, selector, submitOnboardingForm, submitProfessionalForm, uploadImage$1 as upload };
+export { api$1 as api, cf, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, selector, submitOnboardingForm, submitProfessionalForm, upload };

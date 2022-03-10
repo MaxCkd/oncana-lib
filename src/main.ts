@@ -1,32 +1,30 @@
-import * as selector from "./selectors";
-import * as collection from "./collections";
-import * as state from "./states";
-import {
-  mapCollectionSelector,
-  mapCollectionCheckBox,
-  addOption,
-  addCheckBox,
-} from "./createFields";
-import { mapProFieldToBody, mapUserFieldToBody } from "./onboardingForm";
-import { uploadImage } from "./uploadImage";
-import { updateUser } from "./api";
+// Types
 import { OnboardingFormElements } from "./Types/type";
 
+// Imports
+import * as selector from "./selectors";
+import * as collection from "./collections";
+import * as api from "./api";
+import * as state from "./states";
+import * as cf from "./createFields";
+import * as upload from "./uploadImage";
+import { mapProFieldToBody, mapUserFieldToBody } from "./onboardingForm";
+
 // Exports
+export * as selector from "./selectors";
+export * as api from "./api";
 export * as gf from "./getFields";
 export * as cf from "./createFields";
-export * as api from "./api";
 export * as upload from "./uploadImage";
-export * as selector from "./selectors";
-
 export { mapUserFieldToBody } from "./onboardingForm";
 
+// Test Functions
 export const createFieldsFromCollections = () => {
-  mapCollectionSelector(collection.treatmentType, selector.treatmentType);
-  mapCollectionSelector(collection.treatmentStage, selector.treatmentStage);
-  mapCollectionSelector(collection.cancerType, selector.cancerType);
-  mapCollectionSelector(collection.cancerStage, selector.cancerStage);
-  mapCollectionCheckBox(
+  cf.mapCollectionSelector(collection.treatmentType, selector.treatmentType);
+  cf.mapCollectionSelector(collection.treatmentStage, selector.treatmentStage);
+  cf.mapCollectionSelector(collection.cancerType, selector.cancerType);
+  cf.mapCollectionSelector(collection.cancerStage, selector.cancerStage);
+  cf.mapCollectionCheckBox(
     collection.sideEffect,
     selector.sideEffectWrapper,
     "side-effect"
@@ -39,13 +37,13 @@ export const createFieldsFromCollections = () => {
     const type = el.children[2].innerText;
     switch (type) {
       case "Eat":
-        addOption(selector.eat, value, name);
+        cf.addOption(selector.eat, value, name);
         break;
       case "Move":
-        addOption(selector.move, value, name);
+        cf.addOption(selector.move, value, name);
         break;
       case "Live":
-        const liveBox = addCheckBox(value, name, "live");
+        const liveBox = cf.addCheckBox(value, name, "live");
         selector.live.appendChild(liveBox);
         break;
       default:
@@ -57,10 +55,13 @@ export const createFieldsFromCollections = () => {
 export const submitOnboardingForm = async (event: SubmitEvent) => {
   event.preventDefault();
   state.showLoader();
-
   try {
     const body = mapUserFieldToBody();
-    const res = await updateUser(body);
+    // let memberstackId = "6229092f36ca830004d459b4";
+    // body["memberstack-id"] = memberstackId;
+    let webflowId = "620f78370eeeb2cc10a23e94";
+    body["webflow-id"] = webflowId;
+    const res = await api.updateUser(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
@@ -86,7 +87,7 @@ export const submitProfessionalForm = async (event: SubmitEvent) => {
   if (elements["pic"]?.files && elements["pic"].files[0]) {
     try {
       const file = elements["pic"].files[0];
-      const uploadedImageUrl = await uploadImage(file);
+      const uploadedImageUrl = await upload.uploadImage(file);
       body.image = uploadedImageUrl;
     } catch (err) {
       errorImg = "Could not upload your image";
@@ -95,7 +96,7 @@ export const submitProfessionalForm = async (event: SubmitEvent) => {
   }
 
   try {
-    const res = await updateUser(body);
+    const res = await api.updateUser(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
