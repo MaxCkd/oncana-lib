@@ -432,4 +432,9 @@ const submitProForm = async (event) => {
     hideLoader();
   }
 };
-export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, selector, submitProForm, submitUserForm, upload };
+const populateDefaults = () => {
+  const pro = getCurrentPro();
+  setDefaultInput(firstName, pro.firstName);
+  setDefaultCheckboxes(lifestyleWrapper, pro["selected-lifestyles"].split(","));
+};
+export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateDefaults, selector, submitProForm, submitUserForm, upload };
