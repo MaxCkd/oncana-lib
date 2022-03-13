@@ -34,7 +34,7 @@ export const job = document.getElementById("select-job") as HTMLSelectElement;
 export const sideEffectWrapper = document.getElementById(
   "checkboxes-side-effects"
 ) as HTMLDivElement;
-export const live = document.getElementById(
+export const liveWrapper = document.getElementById(
   "checkboxes-lives"
 ) as HTMLDivElement;
 export const lifestyleWrapper = document.getElementById(

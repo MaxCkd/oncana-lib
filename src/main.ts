@@ -62,7 +62,7 @@ export const createUserFormFields = () => {
         break;
       case "Live":
         const liveBox = cf.addCheckBox(value, name, "live");
-        selector.live.appendChild(liveBox);
+        selector.liveWrapper.appendChild(liveBox);
         break;
       default:
         break;
@@ -133,17 +133,17 @@ export const submitProForm = async (event: SubmitEvent) => {
   }
 };
 
-export const populateDefaults = () => {
-  cf.setDefaultInput(selector.firstName, collection.pro.firstName);
-  // cf.setDefaultInput(selector.bio, collection.pro.bio);
-  // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
+// export const populateDefaults = () => {
+//   cf.setDefaultInput(selector.firstName, collection.pro.firstName);
+//   // cf.setDefaultInput(selector.bio, collection.pro.bio);
+//   // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
 
-  // For checkboxes
-  cf.setDefaultCheckboxes(
-    selector.lifestyleWrapper,
-    collection.pro.lifestyles.split(",")
-  );
-};
+//   // For checkboxes
+//   cf.setDefaultCheckboxes(
+//     selector.lifestyleWrapper,
+//     collection.pro.lifestyles.split(",")
+//   );
+// };
 
 // upload.previewImage(
 //   selector.imageInput,

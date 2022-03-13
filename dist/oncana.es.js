@@ -11,7 +11,7 @@ const eat = document.getElementById("select-eat");
 const move = document.getElementById("select-move");
 const job$1 = document.getElementById("select-job");
 const sideEffectWrapper = document.getElementById("checkboxes-side-effects");
-const live = document.getElementById("checkboxes-lives");
+const liveWrapper = document.getElementById("checkboxes-lives");
 const lifestyleWrapper = document.getElementById("checkboxes-lifestyles");
 const categoryWrapper = document.getElementById("checkboxes-categories");
 const imageInput = document.getElementById("image-input");
@@ -40,7 +40,7 @@ var selector = /* @__PURE__ */ Object.freeze({
   move,
   job: job$1,
   sideEffectWrapper,
-  live,
+  liveWrapper,
   lifestyleWrapper,
   categoryWrapper,
   imageInput,
@@ -63,13 +63,28 @@ const category = document.getElementsByClassName("category-item");
 const lifestyle = document.getElementsByClassName("lifestyle-item");
 const job = document.getElementsByClassName("job-item");
 const cpItem = document.getElementsByClassName("collection-page-item");
-const listElements = Array.from(cpItem[0].children);
-const pro = {
-  firstName: listElements[0].innerText,
-  lifestyles: listElements[3].innerText
+const getCurrentPro = () => {
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  const listElements = Array.from(cpItem[0].children);
+  return {
+    firstName: ((_a = listElements[0]) == null ? void 0 : _a.innerText) || "",
+    lastName: ((_b = listElements[1]) == null ? void 0 : _b.innerText) || "",
+    bio: ((_c = listElements[2]) == null ? void 0 : _c.innerText) || "",
+    phone: ((_d = listElements[3]) == null ? void 0 : _d.innerText) || "",
+    postCode: ((_e = listElements[4]) == null ? void 0 : _e.innerText) || "",
+    street: ((_f = listElements[5]) == null ? void 0 : _f.innerText) || "",
+    website: ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
+    itemId: ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
+    "selected-lifestyles": ((_i = listElements[8]) == null ? void 0 : _i.innerText) || "",
+    "selected-categories": ((_j = listElements[9]) == null ? void 0 : _j.innerText) || ""
+  };
 };
-const user = {
-  firstName: listElements[0].innerText
+const getCurrentUser = () => {
+  var _a;
+  const listElements = Array.from(cpItem[0].children);
+  return {
+    firstName: ((_a = listElements[0]) == null ? void 0 : _a.innerText) || ""
+  };
 };
 var collection = /* @__PURE__ */ Object.freeze({
   __proto__: null,
@@ -83,8 +98,8 @@ var collection = /* @__PURE__ */ Object.freeze({
   lifestyle,
   job,
   cpItem,
-  pro,
-  user
+  getCurrentPro,
+  getCurrentUser
 });
 const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 const update = api + "/webflow/user";
@@ -358,7 +373,7 @@ const createUserFormFields = () => {
         break;
       case "Live":
         const liveBox = addCheckBox(value, name, "live");
-        live.appendChild(liveBox);
+        liveWrapper.appendChild(liveBox);
         break;
     }
   });
@@ -375,8 +390,8 @@ const submitUserForm = async (event) => {
       throw new Error("Network response was not OK");
     }
     showSuccess("Success");
-    const user2 = await res.json();
-    window.location.replace(window.location.href + "/user/" + user2.result.slug);
+    const user = await res.json();
+    window.location.replace(window.location.href + "/user/" + user.result.slug);
   } catch (err) {
     showError("Could not update your information", err);
   } finally {
@@ -409,16 +424,12 @@ const submitProForm = async (event) => {
       throw new Error("Network response was not OK");
     }
     showSuccess("Success");
-    const user2 = await res.json();
-    window.location.replace(window.location.href + "/user/" + user2.result.slug);
+    const user = await res.json();
+    window.location.replace(window.location.href + "/user/" + user.result.slug);
   } catch (err) {
     showError("Could not update your information", err);
   } finally {
     hideLoader();
   }
 };
-const populateDefaults = () => {
-  setDefaultInput(firstName, pro.firstName);
-  setDefaultCheckboxes(lifestyleWrapper, pro.lifestyles.split(","));
-};
-export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateDefaults, selector, submitProForm, submitUserForm, upload };
+export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, selector, submitProForm, submitUserForm, upload };
