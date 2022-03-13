@@ -264,36 +264,10 @@ const uploadImage = async (file) => {
     throw new Error("Could not upload the image");
   return responseUpload.url;
 };
-const validTypes = ["image/jpeg", "image/png", "image/jpg"];
-const validateImage = (image) => {
-  if (!validTypes.includes(image.type)) {
-    return "File type is invalid";
-  }
-  if (image.size > 5 * 10 ** 6) {
-    return "File is too big.";
-  }
-  return "ok";
-};
-const previewImage = (imageInput2, imagePreview2, imageFeedback2) => {
-  imageInput2.addEventListener("change", (event) => {
-    const img = event.target.files[0];
-    const isValid = validateImage(img);
-    if (isValid === "ok") {
-      console.log("File", event.target.files[0]);
-      imagePreview2.src = URL.createObjectURL(event.target.files[0]);
-    } else {
-      imageFeedback2.innerText = isValid;
-    }
-  });
-  imagePreview2.addEventListener("load", () => {
-    URL.revokeObjectURL(imagePreview2.src);
-  });
-};
 var upload = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  uploadImage,
-  previewImage
+  uploadImage
 });
 const multiSelect = (options) => options && Object.values(options).map((el) => el.selected && el.value).filter((el) => el);
 const uniSelect = (options) => options && options[options.selectedIndex].value;

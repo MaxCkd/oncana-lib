@@ -144,19 +144,5 @@ export const submitProForm = async (event: SubmitEvent) => {
 //   );
 // };
 
-// upload.previewImage(
-//   selector.imageInput,
-//   selector.imagePreview,
-//   selector.imageFeedback
-// );
-
 // createUserFormFields();
 // populateDefaults();
-
-// const buttons = document.getElementsByTagName("button");
-// for (let button of Array.from(buttons)) {
-//   button.disabled = true;
-// }
-
-// selector.form.addEventListener("submit", submitOnboardingForm);
-// selector.userForm.addEventListener("submit", submitProForm);
