@@ -27,6 +27,8 @@ export const createProFormFields = () => {
     selector.lifestyleWrapper,
     "lifestyle"
   );
+  console.log("Create");
+
   cf.mapCollectionCheckBox(
     collection.sideEffect,
     selector.sideEffectWrapper,
@@ -102,7 +104,7 @@ export const submitProForm = async (event: SubmitEvent) => {
     let webflowId = "6213eae0fae77e75cf3dc004";
     body["webflow-id"] = webflowId;
 
-    const elements = selector.form.elements as ProFormElements;
+    const elements = selector.proForm.elements as ProFormElements;
     let errorImg = "";
     if (elements["picture"]?.files && elements["picture"].files[0]) {
       try {
@@ -117,7 +119,7 @@ export const submitProForm = async (event: SubmitEvent) => {
       }
     }
 
-    const res = await api.updateUser(body);
+    const res = await api.updatePro(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
@@ -143,14 +145,14 @@ export const populateDefaults = () => {
   );
 };
 
-upload.previewImage(
-  selector.imageInput,
-  selector.imagePreview,
-  selector.imageFeedback
-);
+// upload.previewImage(
+//   selector.imageInput,
+//   selector.imagePreview,
+//   selector.imageFeedback
+// );
 
-createUserFormFields();
-populateDefaults();
+// createUserFormFields();
+// populateDefaults();
 
 // const buttons = document.getElementsByTagName("button");
 // for (let button of Array.from(buttons)) {
@@ -158,4 +160,4 @@ populateDefaults();
 // }
 
 // selector.form.addEventListener("submit", submitOnboardingForm);
-selector.form.addEventListener("submit", submitProForm);
+// selector.userForm.addEventListener("submit", submitProForm);

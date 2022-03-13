@@ -1,4 +1,4 @@
-import { form } from "./selectors";
+import { userForm, proForm } from "./selectors";
 import { multiCheckboxFromEl, uniSelect } from "./getFields";
 import type {
   UserFormElements,
@@ -9,9 +9,9 @@ import type {
 
 type UserBody = Omit<UpdateUserData, "memberstack-id" | "webflow-id" | "email">;
 export const mapUserFieldToBody = (): Partial<UpdateUserData> => {
-  const elements = form.elements as UserFormElements;
+  const elements = userForm.elements as UserFormElements;
 
-  const checkboxes = form.querySelectorAll(
+  const checkboxes = userForm.querySelectorAll(
     `input[type="checkbox"]`
   ) as NodeListOf<HTMLInputElement>;
 
@@ -40,9 +40,9 @@ type ProBody = Omit<
 >;
 
 export const mapProFieldToBody = (): Partial<UpdateProData> => {
-  const elements = form.elements as ProFormElements;
+  const elements = proForm.elements as ProFormElements;
 
-  const checkboxes = form.querySelectorAll(
+  const checkboxes = proForm.querySelectorAll(
     `input[type="checkbox"]`
   ) as NodeListOf<HTMLInputElement>;
 

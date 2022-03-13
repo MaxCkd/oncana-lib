@@ -1,4 +1,5 @@
-const form = document.querySelector("#onboarding");
+const userForm = document.querySelector("#user-form");
+const proForm = document.querySelector("#pro-form");
 const loader = document.querySelector(".loader");
 const errorMsg = document.querySelector(".error-msg");
 const successMsg = document.querySelector(".success-msg");
@@ -26,7 +27,8 @@ const oncanaCategories = document.getElementById("oncana-categories");
 var selector = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
-  form,
+  userForm,
+  proForm,
   loader,
   errorMsg,
   successMsg,
@@ -294,8 +296,8 @@ var getFields = /* @__PURE__ */ Object.freeze({
 });
 const mapUserFieldToBody = () => {
   var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
-  const elements = form.elements;
-  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const elements = userForm.elements;
+  const checkboxes = userForm.querySelectorAll(`input[type="checkbox"]`);
   const body = {
     "first-name": ((_a = elements["first-name"]) == null ? void 0 : _a.value) || "",
     "last-name": ((_b = elements["last-name"]) == null ? void 0 : _b.value) || "",
@@ -315,8 +317,8 @@ const mapUserFieldToBody = () => {
 };
 const mapProFieldToBody = () => {
   var _a, _b, _c, _d, _e, _f, _g, _h;
-  const elements = form.elements;
-  const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
+  const elements = proForm.elements;
+  const checkboxes = proForm.querySelectorAll(`input[type="checkbox"]`);
   const body = {
     "first-name": ((_a = elements["first-name"]) == null ? void 0 : _a.value) || "",
     "last-name": ((_b = elements["last-name"]) == null ? void 0 : _b.value) || "",
@@ -333,6 +335,7 @@ const mapProFieldToBody = () => {
 };
 const createProFormFields = () => {
   mapCollectionCheckBox(lifestyle, lifestyleWrapper, "lifestyle");
+  console.log("Create");
   mapCollectionCheckBox(sideEffect, sideEffectWrapper, "side-effect");
   mapCollectionSelector(job, job$1);
 };
@@ -388,7 +391,7 @@ const submitProForm = async (event) => {
     const body = mapProFieldToBody();
     let webflowId = "6213eae0fae77e75cf3dc004";
     body["webflow-id"] = webflowId;
-    const elements = form.elements;
+    const elements = proForm.elements;
     let errorImg = "";
     if (((_a = elements["picture"]) == null ? void 0 : _a.files) && elements["picture"].files[0]) {
       try {
@@ -401,7 +404,7 @@ const submitProForm = async (event) => {
         console.log(errorImg, err);
       }
     }
-    const res = await updateUser(body);
+    const res = await updatePro(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
@@ -418,8 +421,4 @@ const populateDefaults = () => {
   setDefaultInput(firstName, pro.firstName);
   setDefaultCheckboxes(lifestyleWrapper, pro.lifestyles.split(","));
 };
-previewImage(imageInput, imagePreview, imageFeedback);
-createUserFormFields();
-populateDefaults();
-form.addEventListener("submit", submitProForm);
 export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateDefaults, selector, submitProForm, submitUserForm, upload };

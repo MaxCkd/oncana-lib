@@ -1,5 +1,9 @@
-export const form = document.querySelector<HTMLFormElement>(
-  "#onboarding"
+export const userForm = document.querySelector<HTMLFormElement>(
+  "#user-form"
+) as HTMLFormElement;
+
+export const proForm = document.querySelector<HTMLFormElement>(
+  "#pro-form"
 ) as HTMLFormElement;
 
 // Form States Display

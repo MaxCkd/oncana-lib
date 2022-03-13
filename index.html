@@ -20,20 +20,20 @@
           <div>620b73ff8dc509df94f5ffb4</div>
         </div>
         <div class="lifestyle-item">
-          <div class="livestyle-name">lifestyle1</div>
-          <div class="livestyle-value">620b73ff8dc509df94f5ffb4</div>
+          <div class="livestyle-name">Independent Living</div>
+          <div class="livestyle-value">620b7663cf61261db1dc9dc2</div>
         </div>
         <div class="lifestyle-item">
-          <div class="livestyle-name">lifestyle2</div>
-          <div class="livestyle-value">620b73f884257469fd4d6d24</div>
+          <div class="livestyle-name">Home</div>
+          <div class="livestyle-value">620b765b8dc5090ae0f60fe0</div>
         </div>
         <div class="lifestyle-item">
-          <div class="livestyle-name">lifestyle3</div>
-          <div class="livestyle-value">620b73f142fee64f70fc3794</div>
+          <div class="livestyle-name">Hospital</div>
+          <div class="livestyle-value">620b765413bbad200f384495</div>
         </div>
         <div class="lifestyle-item">
-          <div class="livestyle-name">lifestyle4</div>
-          <div class="livestyle-value">620b73eaf5f2215b198f88f9</div>
+          <div class="livestyle-name">Friends</div>
+          <div class="livestyle-value">620b764ebd1d34b08981b2b0</div>
         </div>
         <div class="side-effect-item">
           <div class="side-effect-name">Tired</div>
@@ -70,7 +70,7 @@
       </div>
       <!-- Onboarding Form -->
       <h2 class="title">Onboarding Form</h2>
-      <form id="onboarding">
+      <form id="pro-form">
         <!-- <input
           type="text"
           name="webflow-id"
@@ -102,7 +102,7 @@
         <!-- File -->
         <label> Profile Pic</label>
         <label id="image-upload">
-          <input id="image-input" type="file" name="pic" hidden />
+          <input id="image-input" type="file" name="picture" hidden />
           Click here to Upload your image
         </label>
         <img id="image-preview" src="#" alt="image preview" />
@@ -121,8 +121,8 @@
         <select name="treatment-type" id="select-treatment-type"></select>
         <!-- Side Effects Check Box -->
         <label> Side Effects </label>
-        <div id="checkboxes-side-effect"></div>
-        <div id="checkboxes-lifestyle"></div>
+        <div id="checkboxes-side-effects"></div>
+        <div id="checkboxes-lifestyles"></div>
         <div class="error-msg">Error</div>
         <div class="loader">Wait</div>
         <div class="success-msg">Success</div>
@@ -133,28 +133,28 @@
         alt="No Picture"
       />
     </div>
-    <script type="module" src="/src/main.ts"></script>
-    <!-- <script src="http://localhost:3001/dist/oncana.umd.js"></script> -->
+    <!-- <script type="module" src="/src/main.ts"></script> -->
+    <script src="http://localhost:3001/dist/oncana.umd.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib/dist/oncana.umd.js"></script> -->
     <script>
-      // console.log("Oncana", oncana);
-      // const { form, gf, cf, selector, upload, collection } = oncana;
-      // oncana.createFieldsFromCollections();
+      console.log("Oncana", oncana);
+      const { form, gf, cf, selector, upload, collection } = oncana;
+      oncana.createProFormFields();
 
-      // upload.previewImage(
-      //   selector.imageInput,
-      //   selector.imagePreview,
-      //   selector.imageFeedback
-      // );
+      upload.previewImage(
+        selector.imageInput,
+        selector.imagePreview,
+        selector.imageFeedback
+      );
       // cf.setDefaultInput(selector.firstName, collection.pro.firstName);
       // cf.setDefaultInput(selector.bio, collection.pro.bio);
       // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
 
-      // selector.form.addEventListener("submit", oncana.submitOnboardingForm);
       // const buttons = document.getElementsByTagName("button");
       // for (let button of Array.from(buttons)) {
       //   button.disabled = true;
       // }
+      selector.proForm.addEventListener("submit", oncana.submitProForm);
     </script>
   </body>
 </html>
