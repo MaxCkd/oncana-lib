@@ -24,13 +24,20 @@ export const treatmentStage = document.getElementById(
 ) as HTMLSelectElement;
 export const eat = document.getElementById("select-eat") as HTMLSelectElement;
 export const move = document.getElementById("select-move") as HTMLSelectElement;
+export const job = document.getElementById("select-job") as HTMLSelectElement;
 
 // Get Checkboxes Wrapper
 export const sideEffectWrapper = document.getElementById(
-  "checkboxes-side-effect"
+  "checkboxes-side-effects"
 ) as HTMLDivElement;
 export const live = document.getElementById(
-  "checkboxes-live"
+  "checkboxes-lives"
+) as HTMLDivElement;
+export const lifestyleWrapper = document.getElementById(
+  "checkboxes-lifestyles"
+) as HTMLDivElement;
+export const categoryWrapper = document.getElementById(
+  "checkboxes-categories"
 ) as HTMLDivElement;
 
 // Image Input & Preview
@@ -40,3 +47,25 @@ export const imageInput = document.getElementById(
 export const imagePreview = document.getElementById(
   "image-preview"
 ) as HTMLImageElement;
+export const imageUpload = document.getElementById(
+  "image-upload"
+) as HTMLLabelElement;
+export const imageFeedback = document.getElementById(
+  "image-feedback"
+) as HTMLImageElement;
+
+// Inputs
+export const firstName = document.getElementById(
+  "first-name"
+) as HTMLInputElement;
+export const bio = document.getElementById("bio") as HTMLInputElement;
+export const lastName = document.getElementById(
+  "last-name"
+) as HTMLInputElement;
+export const phone = document.getElementById("phone") as HTMLInputElement;
+export const jobTitle = document.getElementById(
+  "job-title"
+) as HTMLInputElement;
+export const oncanaCategories = document.getElementById(
+  "oncana-categories"
+) as HTMLInputElement;

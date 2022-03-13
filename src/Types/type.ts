@@ -23,27 +23,41 @@ export interface Collections {
   oncanaCategories: { items: Item[] };
 }
 
-export interface OnboardingFormElements extends HTMLFormControlsCollection {
-  // "webflow-id"?: HTMLInputElement;
+export interface UserFormElements extends HTMLFormControlsCollection {
   "first-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   dob: HTMLInputElement;
   postcode: HTMLInputElement;
-  pic?: HTMLInputElement;
   gender: HTMLSelectElement;
-  "cancer-type"?: HTMLSelectElement;
-  "cancer-stage"?: HTMLSelectElement;
-  "treatment-type"?: HTMLSelectElement;
-  "treatment-stage"?: HTMLSelectElement;
-  eat?: HTMLSelectElement;
-  move?: HTMLSelectElement;
+  "cancer-type": HTMLSelectElement;
+  "cancer-stage": HTMLSelectElement;
+  "treatment-type": HTMLSelectElement;
+  "treatment-stage": HTMLSelectElement;
+  eat: HTMLSelectElement;
+  move: HTMLSelectElement;
+}
+export interface ProFormElements extends HTMLFormControlsCollection {
+  "first-name": HTMLInputElement;
+  "last-name": HTMLInputElement;
+  picture: HTMLInputElement;
+  job: HTMLSelectElement;
+  "job-title": HTMLInputElement;
+  bio: HTMLTextAreaElement;
+  address: HTMLInputElement;
+  website: HTMLInputElement;
+  phone: HTMLInputElement;
+  email: HTMLInputElement;
 }
 
-export type OncanaUser = {
-  "memberstack-id": string;
-  "webflow-id": string;
+type User = {
   "first-name": string;
   "last-name": string;
+  email: string;
+  "webflow-id": string;
+  "memberstack-id": string;
+};
+
+export interface UpdateUserData extends User {
   gender: string;
   dob: string;
   postcode: string;
@@ -55,5 +69,21 @@ export type OncanaUser = {
   move: string;
   live: string[];
   "side-effects": string[];
-  image?: string | null;
-};
+}
+
+export interface UpdateProData extends User {
+  "memberstack-id": string;
+  "webflow-id": string;
+  "first-name": string;
+  "last-name": string;
+  bio: string;
+  job: string;
+  "job-title": string;
+  // email: string;
+  phone: string;
+  website: string;
+  address: string;
+  image: string;
+  lifestyles: string[];
+  "side-effects": string[];
+}

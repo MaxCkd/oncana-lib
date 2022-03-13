@@ -1,3 +1,5 @@
+import { pro } from "./collections";
+
 export const addOption = (
   selector: HTMLSelectElement,
   value: string,
@@ -47,4 +49,25 @@ export const mapCollectionCheckBox = (
     const checkBox = addCheckBox(value, name, type);
     wrapper.appendChild(checkBox);
   });
+};
+
+export const setDefaultInput = (input: HTMLInputElement, value: string) => {
+  input.defaultValue = value;
+  input.placeholder = value;
+};
+
+export const setDefaultCheckboxes = (
+  wrapper: HTMLDivElement,
+  checked: string[]
+) => {
+  const checkboxes = Array.from(wrapper.getElementsByTagName("input"));
+  checkboxes.forEach((cb) => {
+    if (checked.includes(cb.name)) {
+      cb.checked = true;
+    }
+  });
+};
+
+export const setDefaultOption = (select: HTMLSelectElement, value: string) => {
+  select.options.selectedIndex;
 };

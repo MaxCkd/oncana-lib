@@ -1,8 +1,8 @@
 :root {
   --forest: #566862;
   --mist-green: #717f76;
-  --cream: ##f9f5f1;
-  --parchment: ##e9dfd3;
+  --cream: #f9f5f1;
+  --parchment: #e9dfd3;
 }
 
 #app {
@@ -73,6 +73,11 @@ img {
   /* position: absolute; */
   height: 50px;
   width: 100vw;
+  /* position: fixed;
+  top: 0;
+  bottom: 0;
+  height: 100%;
+  width: 100%; */
 }
 
 .error-msg {
@@ -101,4 +106,27 @@ img {
   position: absolute; */
   height: 50px;
   width: 100vw;
+}
+
+#image-upload {
+  background-color: #717f76;
+  color: white;
+  height: 100px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 24px;
+  box-shadow: 4px 4px 4px #f9f5f1;
+}
+#image-upload:active {
+  transform: translate(1px, 1px);
+}
+
+#image-preview {
+  object-fit: cover;
+  height: 400px;
+  min-width: 300px;
+  background-color: rgb(150, 150, 150);
+  border-radius: 40% 40% 0% 0%;
 }

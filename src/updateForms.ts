@@ -1,15 +1,21 @@
 import { form } from "./selectors";
 import { multiCheckboxFromEl, uniSelect } from "./getFields";
-import type { OnboardingFormElements, OncanaUser } from "./Types/type";
+import type {
+  UserFormElements,
+  UpdateUserData,
+  UpdateProData,
+  ProFormElements,
+} from "./Types/type";
 
-export const mapUserFieldToBody = () => {
-  const elements = form.elements as OnboardingFormElements;
+type UserBody = Omit<UpdateUserData, "memberstack-id" | "webflow-id" | "email">;
+export const mapUserFieldToBody = (): Partial<UpdateUserData> => {
+  const elements = form.elements as UserFormElements;
 
   const checkboxes = form.querySelectorAll(
     `input[type="checkbox"]`
   ) as NodeListOf<HTMLInputElement>;
 
-  const body: Partial<OncanaUser> = {
+  const body: UserBody = {
     "first-name": elements["first-name"]?.value || "",
     "last-name": elements["last-name"]?.value || "",
     gender: uniSelect(elements["gender"].options) || "",
@@ -28,19 +34,29 @@ export const mapUserFieldToBody = () => {
   return body;
 };
 
-export const mapProFieldToBody = () => {
-  const elements = form.elements as OnboardingFormElements;
+type ProBody = Omit<
+  UpdateProData,
+  "memberstack-id" | "webflow-id" | "image" | "email"
+>;
+
+export const mapProFieldToBody = (): Partial<UpdateProData> => {
+  const elements = form.elements as ProFormElements;
 
   const checkboxes = form.querySelectorAll(
     `input[type="checkbox"]`
   ) as NodeListOf<HTMLInputElement>;
 
-  const body: Partial<OncanaUser> = {
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
-    dob: elements["dob"].value,
-    gender: uniSelect(elements["gender"].options),
+  const body: ProBody = {
+    "first-name": elements["first-name"]?.value || "",
+    "last-name": elements["last-name"]?.value || "",
+    bio: elements["bio"]?.value || "",
+    job: uniSelect(elements["job"]?.options) || "",
+    "job-title": elements["job"]?.value || "",
+    address: elements["address"]?.value || "",
+    phone: elements["phone"]?.value || "",
+    website: elements["website"]?.value || "",
     "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
+    lifestyles: multiCheckboxFromEl(checkboxes, "lifestyle"),
   };
 
   return body;

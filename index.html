@@ -13,6 +13,28 @@
     <div id="app">
       <!-- Data Section -->
       <div class="data-section">
+        <div class="collection-page-item">
+          <div>first bolo name</div>
+          <div>biograp</div>
+          <div>lasr name</div>
+          <div>620b73ff8dc509df94f5ffb4</div>
+        </div>
+        <div class="lifestyle-item">
+          <div class="livestyle-name">lifestyle1</div>
+          <div class="livestyle-value">620b73ff8dc509df94f5ffb4</div>
+        </div>
+        <div class="lifestyle-item">
+          <div class="livestyle-name">lifestyle2</div>
+          <div class="livestyle-value">620b73f884257469fd4d6d24</div>
+        </div>
+        <div class="lifestyle-item">
+          <div class="livestyle-name">lifestyle3</div>
+          <div class="livestyle-value">620b73f142fee64f70fc3794</div>
+        </div>
+        <div class="lifestyle-item">
+          <div class="livestyle-name">lifestyle4</div>
+          <div class="livestyle-value">620b73eaf5f2215b198f88f9</div>
+        </div>
         <div class="side-effect-item">
           <div class="side-effect-name">Tired</div>
           <div class="side-effect-value">620b73ff8dc509df94f5ffb4</div>
@@ -57,7 +79,13 @@
         /> -->
         <!-- Basic -->
         <label> First Name</label>
-        <input type="text" name="first-name" value="first-name" required />
+        <input
+          type="text"
+          name="first-name"
+          id="first-name"
+          value="first-name"
+          required
+        />
         <label> Last Name</label>
         <input type="text" name="last-name" value="last-name" />
         <label> Dob</label>
@@ -73,8 +101,12 @@
         <input type="text" name="postcode" value="1111" />
         <!-- File -->
         <label> Profile Pic</label>
-        <input id="image-input" type="file" name="pic" />
+        <label id="image-upload">
+          <input id="image-input" type="file" name="pic" hidden />
+          Click here to Upload your image
+        </label>
         <img id="image-preview" src="#" alt="image preview" />
+        <div id="image-feedback"></div>
         <!-- Gender -->
         <label> Gender</label>
         <div class="select-wrapper">
@@ -90,6 +122,7 @@
         <!-- Side Effects Check Box -->
         <label> Side Effects </label>
         <div id="checkboxes-side-effect"></div>
+        <div id="checkboxes-lifestyle"></div>
         <div class="error-msg">Error</div>
         <div class="loader">Wait</div>
         <div class="success-msg">Success</div>
@@ -100,15 +133,28 @@
         alt="No Picture"
       />
     </div>
-    <!-- <script type="module" src="/src/main.ts"></script> -->
-    <script src="http://localhost:3001/dist/oncana.umd.js"></script>
+    <script type="module" src="/src/main.ts"></script>
+    <!-- <script src="http://localhost:3001/dist/oncana.umd.js"></script> -->
     <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib/dist/oncana.umd.js"></script> -->
     <script>
-      console.log("Oncana", oncana);
-      const { form, gf, cf, selector, upload } = oncana;
-      oncana.createFieldsFromCollections();
-      // upload.previewImage(selector.imageInput, selector.imagePreview);
-      selector.form.addEventListener("submit", oncana.submitOnboardingForm);
+      // console.log("Oncana", oncana);
+      // const { form, gf, cf, selector, upload, collection } = oncana;
+      // oncana.createFieldsFromCollections();
+
+      // upload.previewImage(
+      //   selector.imageInput,
+      //   selector.imagePreview,
+      //   selector.imageFeedback
+      // );
+      // cf.setDefaultInput(selector.firstName, collection.pro.firstName);
+      // cf.setDefaultInput(selector.bio, collection.pro.bio);
+      // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
+
+      // selector.form.addEventListener("submit", oncana.submitOnboardingForm);
+      // const buttons = document.getElementsByTagName("button");
+      // for (let button of Array.from(buttons)) {
+      //   button.disabled = true;
+      // }
     </script>
   </body>
 </html>

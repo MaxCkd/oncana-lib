@@ -12,6 +12,11 @@ const sideEffectWrapper = document.getElementById("checkboxes-side-effect");
 const live = document.getElementById("checkboxes-live");
 const imageInput = document.getElementById("image-input");
 const imagePreview = document.getElementById("image-preview");
+const imageUpload = document.getElementById("image-upload");
+const imageFeedback = document.getElementById("image-feedback");
+const firstName = document.getElementById("first-name");
+const bio = document.getElementById("bio");
+const lastName = document.getElementById("last-name");
 var selector = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -28,7 +33,12 @@ var selector = /* @__PURE__ */ Object.freeze({
   sideEffectWrapper,
   live,
   imageInput,
-  imagePreview
+  imagePreview,
+  imageUpload,
+  imageFeedback,
+  firstName,
+  bio,
+  lastName
 });
 const cancerType = document.getElementsByClassName("cancer-type-item");
 const cancerStage = document.getElementsByClassName("cancer-stage-item");
@@ -36,6 +46,23 @@ const treatmentType = document.getElementsByClassName("treatment-type-item");
 const treatmentStage = document.getElementsByClassName("treatment-stage-item");
 const sideEffect = document.getElementsByClassName("side-effect-item");
 const category = document.getElementsByClassName("category-item");
+const cpItem = document.getElementsByClassName("collection-page-item");
+const listElements = Array.from(cpItem[0].children);
+const pro = {
+  firstName: listElements[0].innerText
+};
+var collection = /* @__PURE__ */ Object.freeze({
+  __proto__: null,
+  [Symbol.toStringTag]: "Module",
+  cancerType,
+  cancerStage,
+  treatmentType,
+  treatmentStage,
+  sideEffect,
+  category,
+  cpItem,
+  pro
+});
 const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 const update = api + "/webflow";
 const getPresignedUrl = api + "/get-presigned-url";
@@ -131,20 +158,24 @@ const addCheckBox = (value, label, type) => {
   domLabel.appendChild(text);
   return domLabel;
 };
-const mapCollectionSelector = (collection, selector2) => {
-  Object.values(collection).map((el) => {
+const mapCollectionSelector = (collection2, selector2) => {
+  Object.values(collection2).map((el) => {
     const name = el.children[0].innerText;
     const value = el.children[1].innerText;
     addOption(selector2, value, name);
   });
 };
-const mapCollectionCheckBox = (collection, wrapper, type) => {
-  Object.values(collection).map((el) => {
+const mapCollectionCheckBox = (collection2, wrapper, type) => {
+  Object.values(collection2).map((el) => {
     const name = el.children[0].innerText;
     const value = el.children[1].innerText;
     const checkBox = addCheckBox(value, name, type);
     wrapper.appendChild(checkBox);
   });
+};
+const setDefaultInput = (input, value) => {
+  input.defaultValue = value;
+  input.placeholder = value;
 };
 var cf = /* @__PURE__ */ Object.freeze({
   __proto__: null,
@@ -152,7 +183,8 @@ var cf = /* @__PURE__ */ Object.freeze({
   addOption,
   addCheckBox,
   mapCollectionSelector,
-  mapCollectionCheckBox
+  mapCollectionCheckBox,
+  setDefaultInput
 });
 const fileToBlob = async (file) => new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 const uploadImage = async (file) => {
@@ -168,9 +200,26 @@ const uploadImage = async (file) => {
     throw new Error("Could not upload the image");
   return responseUpload.url;
 };
-const previewImage = (imageInput2, imagePreview2) => {
+const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+const validateImage = (image) => {
+  if (!validTypes.includes(image.type)) {
+    return "File type is invalid";
+  }
+  if (image.size > 5 * 10 ** 6) {
+    return "File is too big.";
+  }
+  return "ok";
+};
+const previewImage = (imageInput2, imagePreview2, imageFeedback2) => {
   imageInput2.addEventListener("change", (event) => {
-    imagePreview2.src = URL.createObjectURL(event.target.files[0]);
+    const img = event.target.files[0];
+    const isValid = validateImage(img);
+    if (isValid === "ok") {
+      console.log("File", event.target.files[0]);
+      imagePreview2.src = URL.createObjectURL(event.target.files[0]);
+    } else {
+      imageFeedback2.innerText = isValid;
+    }
   });
   imagePreview2.addEventListener("load", () => {
     URL.revokeObjectURL(imagePreview2.src);
@@ -229,6 +278,10 @@ const mapProFieldToBody = () => {
   };
   return body;
 };
+const buttons = document.getElementsByTagName("button");
+for (let button of Array.from(buttons)) {
+  button.disabled = true;
+}
 const createFieldsFromCollections = () => {
   mapCollectionSelector(treatmentType, treatmentType$1);
   mapCollectionSelector(treatmentStage, treatmentStage$1);
@@ -254,12 +307,27 @@ const createFieldsFromCollections = () => {
   });
 };
 const submitOnboardingForm = async (event) => {
+  var _a;
   event.preventDefault();
   showLoader();
   try {
-    const body = mapUserFieldToBody();
+    let isProfessional = false;
+    const body = isProfessional ? mapProFieldToBody() : mapUserFieldToBody();
+    body["isProfessional"] = isProfessional;
     let webflowId = "620f78370eeeb2cc10a23e94";
     body["webflow-id"] = webflowId;
+    const elements = form.elements;
+    let errorImg = "";
+    if (((_a = elements["pic"]) == null ? void 0 : _a.files) && elements["pic"].files[0]) {
+      try {
+        const file = elements["pic"].files[0];
+        const uploadedImageUrl = await uploadImage(file);
+        body.image = uploadedImageUrl;
+      } catch (err) {
+        errorImg = "Could not upload your image";
+        console.log(errorImg, err);
+      }
+    }
     const res = await updateUser(body);
     if (!res.ok) {
       throw new Error("Network response was not OK");
@@ -273,33 +341,7 @@ const submitOnboardingForm = async (event) => {
     hideLoader();
   }
 };
-const submitProfessionalForm = async (event) => {
-  var _a;
-  event.preventDefault();
-  showLoader();
-  const elements = form.elements;
-  const body = mapProFieldToBody();
-  let errorImg = "";
-  if (((_a = elements["pic"]) == null ? void 0 : _a.files) && elements["pic"].files[0]) {
-    try {
-      const file = elements["pic"].files[0];
-      const uploadedImageUrl = await uploadImage(file);
-      body.image = uploadedImageUrl;
-    } catch (err) {
-      errorImg = "Could not upload your image";
-      console.log(errorImg, err);
-    }
-  }
-  try {
-    const res = await updateUser(body);
-    if (!res.ok) {
-      throw new Error("Network response was not OK");
-    }
-    showSuccess("Success");
-  } catch (err) {
-    showError("Could not update your information", err);
-  } finally {
-    hideLoader();
-  }
+const populateDefaults = () => {
+  setDefaultInput(firstName, pro.firstName);
 };
-export { api$1 as api, cf, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, selector, submitOnboardingForm, submitProfessionalForm, upload };
+export { api$1 as api, cf, collection, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, populateDefaults, selector, submitOnboardingForm, upload };

@@ -22,12 +22,34 @@ export const uploadImage = async (file: File) => {
   return responseUpload.url;
 };
 
+const validTypes = ["image/jpeg", "image/png", "image/jpg"];
+const validateImage = (image: File) => {
+  if (!validTypes.includes(image.type)) {
+    return "File type is invalid";
+  }
+  // Max size 500KB
+  if (image.size > 5 * 10 ** 6) {
+    return "File is too big.";
+  }
+
+  return "ok";
+};
+
 export const previewImage = (
   imageInput: HTMLInputElement,
-  imagePreview: HTMLImageElement
+  imagePreview: HTMLImageElement,
+  imageFeedback: HTMLDivElement
 ) => {
   imageInput.addEventListener("change", (event: any) => {
-    imagePreview.src = URL.createObjectURL(event.target.files[0]);
+    // Check Image validity
+    const img = event.target.files[0];
+    const isValid = validateImage(img);
+    if (isValid === "ok") {
+      console.log("File", event.target.files[0]);
+      imagePreview.src = URL.createObjectURL(event.target.files[0]);
+    } else {
+      imageFeedback.innerText = isValid;
+    }
   });
   imagePreview.addEventListener("load", () => {
     URL.revokeObjectURL(imagePreview.src); // free memory

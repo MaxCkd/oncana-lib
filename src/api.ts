@@ -1,11 +1,12 @@
-import { OncanaUser } from "./Types/type";
+import { UpdateProData, UpdateUserData } from "./Types/type";
 
 // export const api = "http://127.0.0.1:3000/dev";
 export const api = import.meta.env.DEV
   ? "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev"
   : "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
 
-const update = api + "/webflow";
+const update = api + "/webflow/user";
+const updateProfessional = api + "/webflow/pro";
 const getPresignedUrl = api + "/get-presigned-url";
 
 const headers = {
@@ -34,8 +35,16 @@ export const uploadToS3 = (url: string, blob: Blob) => {
   });
 };
 
-export const updateUser = (body: Partial<OncanaUser>) => {
+export const updateUser = (body: Partial<UpdateUserData>) => {
   return fetch(update, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body),
+  });
+};
+
+export const updatePro = (body: Partial<UpdateProData>) => {
+  return fetch(updateProfessional, {
     method: "PATCH",
     headers,
     body: JSON.stringify(body),
