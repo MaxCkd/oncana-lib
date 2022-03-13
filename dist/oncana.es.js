@@ -8,8 +8,11 @@ const treatmentType$1 = document.getElementById("select-treatment-type");
 const treatmentStage$1 = document.getElementById("select-treatment-stage");
 const eat = document.getElementById("select-eat");
 const move = document.getElementById("select-move");
-const sideEffectWrapper = document.getElementById("checkboxes-side-effect");
-const live = document.getElementById("checkboxes-live");
+const job$1 = document.getElementById("select-job");
+const sideEffectWrapper = document.getElementById("checkboxes-side-effects");
+const live = document.getElementById("checkboxes-lives");
+const lifestyleWrapper = document.getElementById("checkboxes-lifestyles");
+const categoryWrapper = document.getElementById("checkboxes-categories");
 const imageInput = document.getElementById("image-input");
 const imagePreview = document.getElementById("image-preview");
 const imageUpload = document.getElementById("image-upload");
@@ -17,6 +20,9 @@ const imageFeedback = document.getElementById("image-feedback");
 const firstName = document.getElementById("first-name");
 const bio = document.getElementById("bio");
 const lastName = document.getElementById("last-name");
+const phone = document.getElementById("phone");
+const jobTitle = document.getElementById("job-title");
+const oncanaCategories = document.getElementById("oncana-categories");
 var selector = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -30,15 +36,21 @@ var selector = /* @__PURE__ */ Object.freeze({
   treatmentStage: treatmentStage$1,
   eat,
   move,
+  job: job$1,
   sideEffectWrapper,
   live,
+  lifestyleWrapper,
+  categoryWrapper,
   imageInput,
   imagePreview,
   imageUpload,
   imageFeedback,
   firstName,
   bio,
-  lastName
+  lastName,
+  phone,
+  jobTitle,
+  oncanaCategories
 });
 const cancerType = document.getElementsByClassName("cancer-type-item");
 const cancerStage = document.getElementsByClassName("cancer-stage-item");
@@ -46,9 +58,15 @@ const treatmentType = document.getElementsByClassName("treatment-type-item");
 const treatmentStage = document.getElementsByClassName("treatment-stage-item");
 const sideEffect = document.getElementsByClassName("side-effect-item");
 const category = document.getElementsByClassName("category-item");
+const lifestyle = document.getElementsByClassName("lifestyle-item");
+const job = document.getElementsByClassName("job-item");
 const cpItem = document.getElementsByClassName("collection-page-item");
 const listElements = Array.from(cpItem[0].children);
 const pro = {
+  firstName: listElements[0].innerText,
+  lifestyles: listElements[3].innerText
+};
+const user = {
   firstName: listElements[0].innerText
 };
 var collection = /* @__PURE__ */ Object.freeze({
@@ -60,11 +78,15 @@ var collection = /* @__PURE__ */ Object.freeze({
   treatmentStage,
   sideEffect,
   category,
+  lifestyle,
+  job,
   cpItem,
-  pro
+  pro,
+  user
 });
 const api = "https://kj2a61qk36.execute-api.ap-southeast-2.amazonaws.com/dev";
-const update = api + "/webflow";
+const update = api + "/webflow/user";
+const updateProfessional = api + "/webflow/pro";
 const getPresignedUrl = api + "/get-presigned-url";
 const headers = {
   "Content-Type": "application/json",
@@ -96,13 +118,21 @@ const updateUser = (body) => {
     body: JSON.stringify(body)
   });
 };
+const updatePro = (body) => {
+  return fetch(updateProfessional, {
+    method: "PATCH",
+    headers,
+    body: JSON.stringify(body)
+  });
+};
 var api$1 = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
   api,
   getUploadUrl,
   uploadToS3,
-  updateUser
+  updateUser,
+  updatePro
 });
 const showLoader = () => {
   hideError();
@@ -177,6 +207,21 @@ const setDefaultInput = (input, value) => {
   input.defaultValue = value;
   input.placeholder = value;
 };
+const setDefaultCheckboxes = (wrapper, checked) => {
+  const checkboxes = Array.from(wrapper.getElementsByTagName("input"));
+  checkboxes.forEach((cb) => {
+    if (checked.includes(cb.name)) {
+      cb.checked = true;
+    }
+  });
+};
+const setDefaultOption = (select, value) => {
+  var _a;
+  const selectedIdx = (_a = select.options.namedItem(value)) == null ? void 0 : _a.index;
+  if (selectedIdx) {
+    select.options.selectedIndex = selectedIdx;
+  }
+};
 var cf = /* @__PURE__ */ Object.freeze({
   __proto__: null,
   [Symbol.toStringTag]: "Module",
@@ -184,7 +229,9 @@ var cf = /* @__PURE__ */ Object.freeze({
   addCheckBox,
   mapCollectionSelector,
   mapCollectionCheckBox,
-  setDefaultInput
+  setDefaultInput,
+  setDefaultCheckboxes,
+  setDefaultOption
 });
 const fileToBlob = async (file) => new Blob([new Uint8Array(await file.arrayBuffer())], { type: file.type });
 const uploadImage = async (file) => {
@@ -267,22 +314,29 @@ const mapUserFieldToBody = () => {
   return body;
 };
 const mapProFieldToBody = () => {
+  var _a, _b, _c, _d, _e, _f, _g, _h;
   const elements = form.elements;
   const checkboxes = form.querySelectorAll(`input[type="checkbox"]`);
   const body = {
-    "first-name": elements["first-name"].value,
-    "last-name": elements["last-name"].value,
-    dob: elements["dob"].value,
-    gender: uniSelect(elements["gender"].options),
-    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect")
+    "first-name": ((_a = elements["first-name"]) == null ? void 0 : _a.value) || "",
+    "last-name": ((_b = elements["last-name"]) == null ? void 0 : _b.value) || "",
+    bio: ((_c = elements["bio"]) == null ? void 0 : _c.value) || "",
+    job: uniSelect((_d = elements["job"]) == null ? void 0 : _d.options) || "",
+    "job-title": ((_e = elements["job"]) == null ? void 0 : _e.value) || "",
+    address: ((_f = elements["address"]) == null ? void 0 : _f.value) || "",
+    phone: ((_g = elements["phone"]) == null ? void 0 : _g.value) || "",
+    website: ((_h = elements["website"]) == null ? void 0 : _h.value) || "",
+    "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
+    lifestyles: multiCheckboxFromEl(checkboxes, "lifestyle")
   };
   return body;
 };
-const buttons = document.getElementsByTagName("button");
-for (let button of Array.from(buttons)) {
-  button.disabled = true;
-}
-const createFieldsFromCollections = () => {
+const createProFormFields = () => {
+  mapCollectionCheckBox(lifestyle, lifestyleWrapper, "lifestyle");
+  mapCollectionCheckBox(sideEffect, sideEffectWrapper, "side-effect");
+  mapCollectionSelector(job, job$1);
+};
+const createUserFormFields = () => {
   mapCollectionSelector(treatmentType, treatmentType$1);
   mapCollectionSelector(treatmentStage, treatmentStage$1);
   mapCollectionSelector(cancerType, cancerType$1);
@@ -306,22 +360,41 @@ const createFieldsFromCollections = () => {
     }
   });
 };
-const submitOnboardingForm = async (event) => {
+const submitUserForm = async (event) => {
+  event.preventDefault();
+  showLoader();
+  try {
+    const body = mapUserFieldToBody();
+    let webflowId = "620f78370eeeb2cc10a23e94";
+    body["webflow-id"] = webflowId;
+    const res = await updateUser(body);
+    if (!res.ok) {
+      throw new Error("Network response was not OK");
+    }
+    showSuccess("Success");
+    const user2 = await res.json();
+    window.location.replace(window.location.href + "/user/" + user2.result.slug);
+  } catch (err) {
+    showError("Could not update your information", err);
+  } finally {
+    hideLoader();
+  }
+};
+const submitProForm = async (event) => {
   var _a;
   event.preventDefault();
   showLoader();
   try {
-    let isProfessional = false;
-    const body = isProfessional ? mapProFieldToBody() : mapUserFieldToBody();
-    body["isProfessional"] = isProfessional;
-    let webflowId = "620f78370eeeb2cc10a23e94";
+    const body = mapProFieldToBody();
+    let webflowId = "6213eae0fae77e75cf3dc004";
     body["webflow-id"] = webflowId;
     const elements = form.elements;
     let errorImg = "";
-    if (((_a = elements["pic"]) == null ? void 0 : _a.files) && elements["pic"].files[0]) {
+    if (((_a = elements["picture"]) == null ? void 0 : _a.files) && elements["picture"].files[0]) {
       try {
-        const file = elements["pic"].files[0];
+        const file = elements["picture"].files[0];
         const uploadedImageUrl = await uploadImage(file);
+        console.log("Image Url", uploadedImageUrl);
         body.image = uploadedImageUrl;
       } catch (err) {
         errorImg = "Could not upload your image";
@@ -333,8 +406,8 @@ const submitOnboardingForm = async (event) => {
       throw new Error("Network response was not OK");
     }
     showSuccess("Success");
-    const user = await res.json();
-    window.location.replace(window.location.href + "/user/" + user.result.slug);
+    const user2 = await res.json();
+    window.location.replace(window.location.href + "/user/" + user2.result.slug);
   } catch (err) {
     showError("Could not update your information", err);
   } finally {
@@ -343,5 +416,10 @@ const submitOnboardingForm = async (event) => {
 };
 const populateDefaults = () => {
   setDefaultInput(firstName, pro.firstName);
+  setDefaultCheckboxes(lifestyleWrapper, pro.lifestyles.split(","));
 };
-export { api$1 as api, cf, collection, createFieldsFromCollections, getFields as gf, mapUserFieldToBody, populateDefaults, selector, submitOnboardingForm, upload };
+previewImage(imageInput, imagePreview, imageFeedback);
+createUserFormFields();
+populateDefaults();
+form.addEventListener("submit", submitProForm);
+export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateDefaults, selector, submitProForm, submitUserForm, upload };

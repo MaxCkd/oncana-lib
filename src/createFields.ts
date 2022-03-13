@@ -1,5 +1,3 @@
-import { pro } from "./collections";
-
 export const addOption = (
   selector: HTMLSelectElement,
   value: string,
@@ -69,5 +67,8 @@ export const setDefaultCheckboxes = (
 };
 
 export const setDefaultOption = (select: HTMLSelectElement, value: string) => {
-  select.options.selectedIndex;
+  const selectedIdx = select.options.namedItem(value)?.index;
+  if (selectedIdx) {
+    select.options.selectedIndex = selectedIdx;
+  }
 };
