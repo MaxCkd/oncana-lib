@@ -20,7 +20,6 @@ export * as upload from "./uploadImage";
 export { mapProFieldToBody, mapUserFieldToBody } from "./updateForms";
 
 // Test Functions
-
 export const createProFormFields = () => {
   cf.mapCollectionCheckBox(
     collection.lifestyle,

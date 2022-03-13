@@ -134,27 +134,27 @@
       />
     </div>
     <!-- <script type="module" src="/src/main.ts"></script> -->
-    <script src="http://localhost:3001/dist/oncana.umd.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib/dist/oncana.umd.js"></script> -->
+    <!-- <script src="http://localhost:3001/dist/oncana.umd.js"></script> -->
+    <script src="https://cdn.jsdelivr.net/gh/MaxCkd/oncana-lib/dist/oncana.umd.js"></script>
     <script>
       console.log("Oncana", oncana);
-      const { form, gf, cf, selector, upload, collection } = oncana;
-      oncana.createProFormFields();
+      // const { form, gf, cf, selector, upload, collection } = oncana;
+      // oncana.createProFormFields();
 
-      upload.previewImage(
-        selector.imageInput,
-        selector.imagePreview,
-        selector.imageFeedback
-      );
-      // cf.setDefaultInput(selector.firstName, collection.pro.firstName);
-      // cf.setDefaultInput(selector.bio, collection.pro.bio);
-      // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
+      // upload.previewImage(
+      //   selector.imageInput,
+      //   selector.imagePreview,
+      //   selector.imageFeedback
+      // );
+      // // cf.setDefaultInput(selector.firstName, collection.pro.firstName);
+      // // cf.setDefaultInput(selector.bio, collection.pro.bio);
+      // // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
 
-      // const buttons = document.getElementsByTagName("button");
-      // for (let button of Array.from(buttons)) {
-      //   button.disabled = true;
-      // }
-      selector.proForm.addEventListener("submit", oncana.submitProForm);
+      // // const buttons = document.getElementsByTagName("button");
+      // // for (let button of Array.from(buttons)) {
+      // //   button.disabled = true;
+      // // }
+      // selector.proForm.addEventListener("submit", oncana.submitProForm);
     </script>
   </body>
 </html>
