@@ -132,17 +132,15 @@ export const submitProForm = async (event: SubmitEvent) => {
   }
 };
 
-// export const populateDefaults = () => {
-//   cf.setDefaultInput(selector.firstName, collection.pro.firstName);
-//   // cf.setDefaultInput(selector.bio, collection.pro.bio);
-//   // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
+export const populateDefaults = () => {
+  const pro = collection.getCurrentPro();
+  cf.setDefaultInput(selector.firstName, pro.firstName);
+  // cf.setDefaultInput(selector.bio, collection.pro.bio);
+  // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
 
-//   // For checkboxes
-//   cf.setDefaultCheckboxes(
-//     selector.lifestyleWrapper,
-//     collection.pro.lifestyles.split(",")
-//   );
-// };
-
-// createUserFormFields();
-// populateDefaults();
+  // For checkboxes
+  cf.setDefaultCheckboxes(
+    selector.lifestyleWrapper,
+    pro["selected-lifestyles"].split(",")
+  );
+};
