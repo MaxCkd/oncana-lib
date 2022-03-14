@@ -93,15 +93,21 @@ export const submitUserForm = async (event: SubmitEvent) => {
   }
 };
 
-export const submitProForm = async (event: SubmitEvent) => {
+export const submitProForm = async (
+  event: SubmitEvent,
+  memberstackId?: string,
+  webflowId?: string,
+  redirect: boolean = false
+) => {
   event.preventDefault();
   state.showLoader();
+  state.disableButtons();
   try {
     const body = mapProFieldToBody();
-    // let memberstackId = "6229092f36ca830004d459b4";
-    // body["memberstack-id"] = memberstackId;
-    let webflowId = "6213eae0fae77e75cf3dc004";
+    body["memberstack-id"] = memberstackId;
     body["webflow-id"] = webflowId;
+
+    console.log("MMM", memberstackId);
 
     const elements = selector.proForm.elements as ProFormElements;
     let errorImg = "";
@@ -122,25 +128,83 @@ export const submitProForm = async (event: SubmitEvent) => {
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
-    state.showSuccess("Success");
+    state.showSuccess();
     const user = await res.json();
-    window.location.replace(window.location.href + "/user/" + user.result.slug);
+    redirect &&
+      window.location.replace(
+        window.location.href + "/health-professional/" + user.result.slug
+      );
   } catch (err) {
     state.showError("Could not update your information", err);
   } finally {
     state.hideLoader();
+    state.enableButtons();
   }
 };
 
-export const populateDefaults = () => {
+export const populateProFormDefaults = () => {
   const pro = collection.getCurrentPro();
   cf.setDefaultInput(selector.firstName, pro.firstName);
-  // cf.setDefaultInput(selector.bio, collection.pro.bio);
-  // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
+  cf.setDefaultInput(selector.lastName, pro.lastName);
+  cf.setDefaultInput(selector.bio, pro.bio);
+  cf.setDefaultInput(selector.phone, pro.phone);
+  cf.setDefaultInput(selector.email, pro.email);
+  // cf.setDefaultInput(selector.postCode, pro.postCode);
+  cf.setDefaultInput(selector.website, pro.website);
+  cf.setDefaultInput(selector.jobTitle, pro.jobTitle);
+
+  // For select
+  cf.setDefaultOption(selector.job, pro.job);
 
   // For checkboxes
   cf.setDefaultCheckboxes(
     selector.lifestyleWrapper,
     pro["selected-lifestyles"].split(",")
   );
+  cf.setDefaultCheckboxes(
+    selector.lifestyleWrapper,
+    pro["selected-side-effects"].split(",")
+  );
+
+  // For the image
+  selector.imagePreview.src = pro.image;
 };
+
+// let memberstackId = "6229092f36ca830004d459b4";
+// let webflowId = "6213eae0fae77e75cf3dc004";
+// selector.proForm.addEventListener("submit", (e) =>
+//   submitProForm(e, memberstackId, webflowId)
+// );
+
+// proForm.addEventListener("submit", async (event) => {
+//   event.preventDefault();
+//    try {
+//      const body = oncana.mapProFieldToBody();
+//      body["webflow-id"] = webflowId;
+//      body["memberstack-id"] = memberstackId;
+//      const elements = proForm.elements;
+
+//      let errorImg = "";
+//      if (elements["picture"].files && elements["picture"].files[0]) {
+//        try {
+//          const file = elements["picture"].files[0];
+//          const uploadedImageUrl = await upload.uploadImage(file);
+//          console.log("Image Url", uploadedImageUrl);
+
+//          body.image = uploadedImageUrl;
+//          } catch (err) {
+//              errorImg = "Could not upload your image";
+//              console.log(errorImg, err);
+//            }
+//        }
+
+//      const res = await api.updatePro(body);
+//      if (!res.ok) {
+//        throw new Error("Network response was not OK");
+//      }
+//      const user = await res.json();
+//      console.log("Updated user", user);
+//    } catch(err) {
+//      console.log("Error", err)
+//    }
+//  })

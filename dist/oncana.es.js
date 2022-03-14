@@ -10,6 +10,7 @@ const treatmentStage$1 = document.getElementById("select-treatment-stage");
 const eat = document.getElementById("select-eat");
 const move = document.getElementById("select-move");
 const job$1 = document.getElementById("select-job");
+const gender = document.getElementById("gender");
 const sideEffectWrapper = document.getElementById("checkboxes-side-effects");
 const liveWrapper = document.getElementById("checkboxes-lives");
 const lifestyleWrapper = document.getElementById("checkboxes-lifestyles");
@@ -22,6 +23,9 @@ const firstName = document.getElementById("first-name");
 const bio = document.getElementById("bio");
 const lastName = document.getElementById("last-name");
 const phone = document.getElementById("phone");
+const email = document.getElementById("email");
+const address = document.getElementById("address");
+const website = document.getElementById("website");
 const jobTitle = document.getElementById("job-title");
 const oncanaCategories = document.getElementById("oncana-categories");
 var selector = /* @__PURE__ */ Object.freeze({
@@ -39,6 +43,7 @@ var selector = /* @__PURE__ */ Object.freeze({
   eat,
   move,
   job: job$1,
+  gender,
   sideEffectWrapper,
   liveWrapper,
   lifestyleWrapper,
@@ -51,6 +56,9 @@ var selector = /* @__PURE__ */ Object.freeze({
   bio,
   lastName,
   phone,
+  email,
+  address,
+  website,
   jobTitle,
   oncanaCategories
 });
@@ -64,8 +72,9 @@ const lifestyle = document.getElementsByClassName("lifestyle-item");
 const job = document.getElementsByClassName("job-item");
 const cpItem = document.getElementsByClassName("collection-page-item");
 const getCurrentPro = () => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n;
   const listElements = Array.from(cpItem[0].children);
+  const img = listElements[13];
   return {
     firstName: ((_a = listElements[0]) == null ? void 0 : _a.innerText) || "",
     lastName: ((_b = listElements[1]) == null ? void 0 : _b.innerText) || "",
@@ -76,7 +85,12 @@ const getCurrentPro = () => {
     website: ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
     itemId: ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
     "selected-lifestyles": ((_i = listElements[8]) == null ? void 0 : _i.innerText) || "",
-    "selected-categories": ((_j = listElements[9]) == null ? void 0 : _j.innerText) || ""
+    "selected-categories": ((_j = listElements[9]) == null ? void 0 : _j.innerText) || "",
+    jobTitle: ((_k = listElements[10]) == null ? void 0 : _k.innerText) || "",
+    job: ((_l = listElements[11]) == null ? void 0 : _l.innerText) || "",
+    "selected-side-effects": ((_m = listElements[12]) == null ? void 0 : _m.innerText) || "",
+    image: (img == null ? void 0 : img.src) || "",
+    email: ((_n = listElements[14]) == null ? void 0 : _n.innerText) || ""
   };
 };
 const getCurrentUser = () => {
@@ -151,11 +165,14 @@ var api$1 = /* @__PURE__ */ Object.freeze({
   updateUser,
   updatePro
 });
-const showLoader = () => {
+const showLoader = (text) => {
   hideError();
   hideSuccess();
   loader.style.display = "flex";
-  loader.innerText = "Loading";
+  if (text) {
+    const innerDiv = loader.getElementsByTagName("div")[0];
+    innerDiv.innerText = text;
+  }
 };
 const hideLoader = () => {
   loader.style.display = "none";
@@ -171,18 +188,31 @@ const showError = (msg, err) => {
 };
 const hideError = () => {
   errorMsg.style.display = "none";
-  errorMsg.innerText = "";
 };
 const showSuccess = (msg) => {
   successMsg.style.display = "flex";
-  successMsg.innerText = msg;
+  if (msg) {
+    const innerDiv = successMsg.getElementsByTagName("div")[0];
+    innerDiv.innerText = msg;
+  }
   setTimeout(() => {
     hideSuccess();
   }, 3e3);
 };
 const hideSuccess = () => {
   successMsg.style.display = "none";
-  successMsg.innerText = "";
+};
+const disableButtons = () => {
+  const buttons = document.getElementsByTagName("button");
+  for (let button of Array.from(buttons)) {
+    button.disabled = true;
+  }
+};
+const enableButtons = () => {
+  const buttons = document.getElementsByTagName("button");
+  for (let button of Array.from(buttons)) {
+    button.disabled = false;
+  }
 };
 const addOption = (selector2, value, name) => {
   if (selector2 && value && name) {
@@ -233,8 +263,7 @@ const setDefaultCheckboxes = (wrapper, checked) => {
   });
 };
 const setDefaultOption = (select, value) => {
-  var _a;
-  const selectedIdx = (_a = select.options.namedItem(value)) == null ? void 0 : _a.index;
+  const selectedIdx = Array.from(select.options).map((i) => i.value).indexOf(value);
   if (selectedIdx) {
     select.options.selectedIndex = selectedIdx;
   }
@@ -398,14 +427,16 @@ const submitUserForm = async (event) => {
     hideLoader();
   }
 };
-const submitProForm = async (event) => {
+const submitProForm = async (event, memberstackId, webflowId, redirect = false) => {
   var _a;
   event.preventDefault();
   showLoader();
+  disableButtons();
   try {
     const body = mapProFieldToBody();
-    let webflowId = "6213eae0fae77e75cf3dc004";
+    body["memberstack-id"] = memberstackId;
     body["webflow-id"] = webflowId;
+    console.log("MMM", memberstackId);
     const elements = proForm.elements;
     let errorImg = "";
     if (((_a = elements["picture"]) == null ? void 0 : _a.files) && elements["picture"].files[0]) {
@@ -423,18 +454,28 @@ const submitProForm = async (event) => {
     if (!res.ok) {
       throw new Error("Network response was not OK");
     }
-    showSuccess("Success");
+    showSuccess();
     const user = await res.json();
-    window.location.replace(window.location.href + "/user/" + user.result.slug);
+    redirect && window.location.replace(window.location.href + "/health-professional/" + user.result.slug);
   } catch (err) {
     showError("Could not update your information", err);
   } finally {
     hideLoader();
+    enableButtons();
   }
 };
-const populateDefaults = () => {
+const populateProFormDefaults = () => {
   const pro = getCurrentPro();
   setDefaultInput(firstName, pro.firstName);
+  setDefaultInput(lastName, pro.lastName);
+  setDefaultInput(bio, pro.bio);
+  setDefaultInput(phone, pro.phone);
+  setDefaultInput(email, pro.email);
+  setDefaultInput(website, pro.website);
+  setDefaultInput(jobTitle, pro.jobTitle);
+  setDefaultOption(job$1, pro.job);
   setDefaultCheckboxes(lifestyleWrapper, pro["selected-lifestyles"].split(","));
+  setDefaultCheckboxes(lifestyleWrapper, pro["selected-side-effects"].split(","));
+  imagePreview.src = pro.image;
 };
-export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateDefaults, selector, submitProForm, submitUserForm, upload };
+export { api$1 as api, cf, collection, createProFormFields, createUserFormFields, getFields as gf, mapProFieldToBody, mapUserFieldToBody, populateProFormDefaults, selector, submitProForm, submitUserForm, upload };

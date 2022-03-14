@@ -67,7 +67,10 @@ export const setDefaultCheckboxes = (
 };
 
 export const setDefaultOption = (select: HTMLSelectElement, value: string) => {
-  const selectedIdx = select.options.namedItem(value)?.index;
+  const selectedIdx = Array.from(select.options)
+    .map((i) => i.value)
+    .indexOf(value);
+  // const selectedIdx = select.options.namedItem(value)?.index;
   if (selectedIdx) {
     select.options.selectedIndex = selectedIdx;
   }

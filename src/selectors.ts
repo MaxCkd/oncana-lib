@@ -1,7 +1,7 @@
+// Forms
 export const userForm = document.querySelector<HTMLFormElement>(
   "#user-form"
 ) as HTMLFormElement;
-
 export const proForm = document.querySelector<HTMLFormElement>(
   "#pro-form"
 ) as HTMLFormElement;
@@ -29,6 +29,7 @@ export const treatmentStage = document.getElementById(
 export const eat = document.getElementById("select-eat") as HTMLSelectElement;
 export const move = document.getElementById("select-move") as HTMLSelectElement;
 export const job = document.getElementById("select-job") as HTMLSelectElement;
+export const gender = document.getElementById("gender") as HTMLSelectElement;
 
 // Get Checkboxes Wrapper
 export const sideEffectWrapper = document.getElementById(
@@ -58,7 +59,7 @@ export const imageFeedback = document.getElementById(
   "image-feedback"
 ) as HTMLImageElement;
 
-// Inputs
+// Text Inputs
 export const firstName = document.getElementById(
   "first-name"
 ) as HTMLInputElement;
@@ -67,6 +68,9 @@ export const lastName = document.getElementById(
   "last-name"
 ) as HTMLInputElement;
 export const phone = document.getElementById("phone") as HTMLInputElement;
+export const email = document.getElementById("email") as HTMLInputElement;
+export const address = document.getElementById("address") as HTMLInputElement;
+export const website = document.getElementById("website") as HTMLInputElement;
 export const jobTitle = document.getElementById(
   "job-title"
 ) as HTMLInputElement;

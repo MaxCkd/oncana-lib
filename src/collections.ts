@@ -19,6 +19,7 @@ export const cpItem = document.getElementsByClassName("collection-page-item");
 // For Professional Page
 export const getCurrentPro = () => {
   const listElements = Array.from(cpItem[0].children) as HTMLDivElement[];
+  const img = listElements[13] as HTMLImageElement;
   return {
     firstName: listElements[0]?.innerText || "",
     lastName: listElements[1]?.innerText || "",
@@ -30,6 +31,11 @@ export const getCurrentPro = () => {
     itemId: listElements[7]?.innerText || "",
     "selected-lifestyles": listElements[8]?.innerText || "",
     "selected-categories": listElements[9]?.innerText || "",
+    jobTitle: listElements[10]?.innerText || "",
+    job: listElements[11]?.innerText || "",
+    "selected-side-effects": listElements[12]?.innerText || "",
+    image: img?.src || "",
+    email: listElements[14]?.innerText || "",
   };
 };
 

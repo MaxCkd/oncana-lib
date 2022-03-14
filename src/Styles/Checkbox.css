@@ -1,18 +1,19 @@
-#checkboxes {
+.checkboxes {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
+  text-align: left;
 }
 
-#checkboxes label {
+.checkboxes label {
   cursor: pointer;
   position: relative;
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
+  /* margin-top: 0.2em;
+  margin-bottom: 0.2em; */
 }
 
 /* Hide the browser's default checkbox */
-#checkboxes label input {
+.checkboxes label input {
   position: absolute;
   opacity: 0;
   cursor: pointer;
@@ -35,7 +36,7 @@
 }
 
 /* When the checkbox is checked, add a blue background */
-#checkboxes input:checked ~ .checkmark {
+.checkboxes input:checked ~ .checkmark {
   background-color: #566862;
 }
 
@@ -47,12 +48,12 @@
 }
 
 /* Show the checkmark when checked */
-#checkboxes input:checked ~ .checkmark:after {
+.checkboxes input:checked ~ .checkmark:after {
   display: block;
 }
 
 /* Style the checkmark/indicator */
-#checkboxes .checkmark:after {
+.checkboxes .checkmark:after {
   left: 4px;
   top: 0px;
   width: 5px;
