@@ -67,6 +67,9 @@ export const bio = document.getElementById("bio") as HTMLInputElement;
 export const lastName = document.getElementById(
   "last-name"
 ) as HTMLInputElement;
+export const displayName = document.getElementById(
+  "display-name"
+) as HTMLInputElement;
 export const phone = document.getElementById("phone") as HTMLInputElement;
 export const email = document.getElementById("email") as HTMLInputElement;
 export const address = document.getElementById("address") as HTMLInputElement;
@@ -77,3 +80,10 @@ export const jobTitle = document.getElementById(
 export const oncanaCategories = document.getElementById(
   "oncana-categories"
 ) as HTMLInputElement;
+
+// Map
+export const mapDiv = document.getElementById("map") as HTMLDivElement;
+export const mapInput = document.getElementById("address") as HTMLInputElement;
+export const mapSearch = document.getElementById(
+  "map-search"
+) as HTMLButtonElement;

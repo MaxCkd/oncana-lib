@@ -1,23 +1,24 @@
-import { loader, successMsg, errorMsg } from "./selectors";
+import { successMsg, errorMsg } from "./selectors";
 
 export const showLoader = (text?: string) => {
   hideError();
   hideSuccess();
+  const loader = document.querySelector(".loader") as HTMLDivElement;
   loader.style.display = "flex";
   if (text) {
-    const innerDiv = loader.getElementsByTagName("div")[0];
+    const innerDiv = loader.getElementsByTagName("span")[0];
     innerDiv.innerText = text;
   }
 };
 
 export const hideLoader = () => {
+  const loader = document.querySelector(".loader") as HTMLDivElement;
   loader.style.display = "none";
   loader.innerText = "";
 };
 
 export const showError = (msg: string, err?: any) => {
   if (import.meta.env.DEV) console.log(msg, err);
-  console.log(msg, err);
   errorMsg.style.display = "flex";
   errorMsg.innerText = msg;
   setTimeout(() => {
@@ -32,7 +33,7 @@ export const hideError = () => {
 export const showSuccess = (msg?: string) => {
   successMsg.style.display = "flex";
   if (msg) {
-    const innerDiv = successMsg.getElementsByTagName("div")[0];
+    const innerDiv = successMsg.getElementsByTagName("span")[0];
     innerDiv.innerText = msg;
   }
   setTimeout(() => {

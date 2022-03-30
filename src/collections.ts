@@ -36,6 +36,9 @@ export const getCurrentPro = () => {
     "selected-side-effects": listElements[12]?.innerText || "",
     image: img?.src || "",
     email: listElements[14]?.innerText || "",
+    address: listElements[15]?.innerText || "",
+    displayName: listElements[16]?.innerText || "",
+    directoryId: listElements[17]?.innerText || "",
   };
 };
 
@@ -44,5 +47,13 @@ export const getCurrentUser = () => {
   const listElements = Array.from(cpItem[0].children) as HTMLDivElement[];
   return {
     firstName: listElements[0]?.innerText || "",
+    lastName: listElements[1]?.innerText || "",
+    gender: listElements[2]?.innerText || "",
+    phone: listElements[3]?.innerText || "",
+    cancerStage: listElements[4]?.innerText || "",
+    cancerType: listElements[5]?.innerText || "",
+    "selected-side-effects": listElements[6]?.innerText || "",
+    "selected-categories": listElements[7]?.innerText || "",
+    email: listElements[8]?.innerText || "",
   };
 };

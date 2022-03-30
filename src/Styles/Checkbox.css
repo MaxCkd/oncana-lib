@@ -1,8 +1,9 @@
 .checkboxes {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;
-  text-align: left;
+  text-align: left; */
+  position: relative;
 }
 
 .checkboxes label {
@@ -10,6 +11,8 @@
   position: relative;
   /* margin-top: 0.2em;
   margin-bottom: 0.2em; */
+  display: flex;
+  align-items: center;
 }
 
 /* Hide the browser's default checkbox */
@@ -24,7 +27,6 @@
 /* Create a custom checkbox */
 .checkmark {
   position: absolute;
-  top: 0;
   left: 0;
   height: 1em;
   width: 1em;
@@ -64,3 +66,37 @@
   -ms-transform: rotate(45deg);
   transform: rotate(45deg);
 }
+
+/* .checkbow-wrapper {
+  position: relative;
+}
+.checkbow-wrapper input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkbow-wrapper label {
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+.checkbow-wrapper input:checked ~ .checkmark {
+  background-color: #566862;
+}
+.checkbow-wrapper input:checked ~ .checkmark:after {
+  display: block;
+}
+.checkbow-wrapper .checkmark:after {
+  left: 4px;
+  top: 0px;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+} */

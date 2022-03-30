@@ -36,7 +36,7 @@ export const mapUserFieldToBody = (): Partial<UpdateUserData> => {
 
 type ProBody = Omit<
   UpdateProData,
-  "memberstack-id" | "webflow-id" | "image" | "email"
+  "memberstack-id" | "webflow-id" | "image" | "address"
 >;
 
 export const mapProFieldToBody = (): Partial<UpdateProData> => {
@@ -48,11 +48,12 @@ export const mapProFieldToBody = (): Partial<UpdateProData> => {
 
   const body: ProBody = {
     "first-name": elements["first-name"]?.value || "",
+    "display-name": elements["display-name"]?.value || "",
     "last-name": elements["last-name"]?.value || "",
     bio: elements["bio"]?.value || "",
+    email: elements["email"]?.value || "",
     job: uniSelect(elements["job"]?.options) || "",
-    "job-title": elements["job"]?.value || "",
-    address: elements["address"]?.value || "",
+    "job-title": elements["job-title"]?.value || "",
     phone: elements["phone"]?.value || "",
     website: elements["website"]?.value || "",
     "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),

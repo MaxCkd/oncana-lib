@@ -38,6 +38,7 @@ export interface UserFormElements extends HTMLFormControlsCollection {
 }
 export interface ProFormElements extends HTMLFormControlsCollection {
   "first-name": HTMLInputElement;
+  "display-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   picture: HTMLInputElement;
   job: HTMLSelectElement;
@@ -75,14 +76,18 @@ export interface UpdateProData extends User {
   "memberstack-id": string;
   "webflow-id": string;
   "first-name": string;
+  "display-name": string;
   "last-name": string;
+  "directory-id"?: string;
   bio: string;
   job: string;
   "job-title": string;
-  // email: string;
+  email: string;
   phone: string;
   website: string;
   address: string;
+  latitude?: number;
+  longitude?: number;
   image: string;
   lifestyles: string[];
   "side-effects": string[];

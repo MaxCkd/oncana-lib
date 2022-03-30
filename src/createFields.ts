@@ -50,8 +50,9 @@ export const mapCollectionCheckBox = (
 };
 
 export const setDefaultInput = (input: HTMLInputElement, value: string) => {
-  input.defaultValue = value;
-  input.placeholder = value;
+  if (value) {
+    input.defaultValue = value;
+  }
 };
 
 export const setDefaultCheckboxes = (
