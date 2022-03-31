@@ -50,7 +50,7 @@ export const mapCollectionCheckBox = (
 };
 
 export const setDefaultInput = (input: HTMLInputElement, value: string) => {
-  if (value) {
+  if (input && value) {
     input.defaultValue = value;
   }
 };

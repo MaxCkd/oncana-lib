@@ -233,25 +233,57 @@ export const submitProForm = async (
   }
 };
 
+const getTwoDigits = (value: number) => (value < 10 ? `0${value}` : value);
 export const populateUserFormDefaults = () => {
   const user = collection.getCurrentUser();
   cf.setDefaultInput(selector.firstName, user.firstName);
-  cf.setDefaultInput(selector.lastName, user.lastName);
-  cf.setDefaultInput(selector.phone, user.phone);
   cf.setDefaultInput(selector.email, user.email);
+  cf.setDefaultInput(selector.postcode, user.postcode);
+  // Date
+  const date = new Date(user.dob);
+  const day = getTwoDigits(date.getDate());
+  const month = getTwoDigits(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const formatDate = `${year}-${month}-${day}`;
+  cf.setDefaultInput(selector.dob, formatDate);
 
   // For select
   cf.setDefaultOption(selector.gender, user.gender);
   cf.setDefaultOption(selector.cancerType, user.cancerType);
   cf.setDefaultOption(selector.cancerStage, user.cancerStage);
-  // cf.setDefaultOption(selector.treatmentType, pro.job);
-  // cf.setDefaultOption(selector.treatmentStage, pro.job);
+  cf.setDefaultOption(selector.treatmentType, user.treatmentType);
+  cf.setDefaultOption(selector.treatmentStage, user.treatmentStage);
 
   // For checkboxes
   cf.setDefaultCheckboxes(
     selector.sideEffectWrapper,
     user["selected-side-effects"].split(",")
   );
+
+  // For categories
+  const selectedCategories = user["selected-categories"].split(",");
+  Object.values(collection.category).map((el: any) => {
+    // const name = el.children[0].innerText;
+    const value = el.children[1].innerText;
+    const type = el.children[2].innerText;
+    switch (type) {
+      case "Eat":
+        if (selectedCategories.includes(value)) {
+          cf.setDefaultOption(selector.eat, value);
+        }
+        break;
+      case "Move":
+        if (selectedCategories.includes(value)) {
+          cf.setDefaultOption(selector.move, value);
+        }
+        break;
+      case "Live":
+        cf.setDefaultCheckboxes(selector.liveWrapper, selectedCategories);
+        break;
+      default:
+        break;
+    }
+  });
 };
 
 export const populateProFormDefaults = () => {
@@ -358,4 +390,11 @@ export const createLoader = () => {
   });
 
   animation.play();
+};
+
+export const restrictAccess = (id: string) => {
+  // redirect if not the user
+  if (!window.location.href.includes(id)) {
+    // redirect
+  }
 };

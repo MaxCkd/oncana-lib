@@ -78,15 +78,9 @@
         <div id="map"></div>
       </div>
       <!-- Update Form -->
-      <h2 class="title">Update Form</h2>
+      <h2 class="title">Oncana Tests</h2>
       <form id="user-form"></form>
       <form id="pro-form">
-        <!-- <input
-          type="text"
-          name="webflow-id"
-          value="620f78370eeeb2cc10a23e94"
-          hidden
-        /> -->
         <!-- Basic -->
         <label> First Name</label>
         <input
@@ -108,18 +102,6 @@
           max="2024-12-31"
         />
         <label>Search</label>
-        <!-- <svg
-          width="21"
-          height="22"
-          viewBox="0 0 21 22"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path
-            d="M20.5201 18.2495L15.6106 13.3399C16.727 11.6824 17.2778 9.61154 16.9829 7.4049C16.4801 3.65154 13.4039 0.597097 9.64686 0.121437C4.06092 -0.585388 -0.636202 4.11174 0.0706638 9.69768C0.546447 13.4564 3.6013 16.535 7.35507 17.0354C9.56172 17.3303 11.633 16.7796 13.29 15.663L18.1996 20.5726C18.8403 21.2133 19.8792 21.2133 20.5199 20.5726C21.16 19.9311 21.16 18.8893 20.5201 18.2495ZM3.2443 8.58205C3.2443 5.68715 5.59943 3.33203 8.49432 3.33203C11.3892 3.33203 13.7443 5.68715 13.7443 8.58205C13.7443 11.4769 11.3892 13.8321 8.49432 13.8321C5.59943 13.8321 3.2443 11.4778 3.2443 8.58205Z"
-            fill="#566862"
-          />
-        </svg> -->
         <input class="input search-input" type="search" />
         <label>Postcode</label>
         <input type="text" name="postcode" value="1111" />
@@ -179,26 +161,6 @@
         setAutoComplete,
         setLocation,
       } = oncana;
-      // oncana.createProFormFields();
-
-      // document.getElementById("pro-form").addEventListener("submit", (e) => {
-      //   e.preventDefault();
-      //   console.log("Submit Bro");
-      // });
-      // upload.previewImage(
-      //   selector.imageInput,
-      //   selector.imagePreview,
-      //   selector.imageFeedback
-      // );
-      // // cf.setDefaultInput(selector.firstName, collection.pro.firstName);
-      // // cf.setDefaultInput(selector.bio, collection.pro.bio);
-      // // cf.setDefaultInput(selector.lastName, collection.pro.lastName);
-
-      // // const buttons = document.getElementsByTagName("button");
-      // // for (let button of Array.from(buttons)) {
-      // //   button.disabled = true;
-      // // }
-      // selector.proForm.addEventListener("submit", oncana.submitProForm);
       initMap();
       setAutoComplete();
       setLocation({
@@ -207,10 +169,5 @@
         address: "gh",
       });
     </script>
-    <!-- <script
-      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA2vbTQ7GcDtToE_OBHRyz0BEORATafu8U&callback=initMap&v=weekly&libraries=places"
-      async
-    ></script> -->
-    <!-- <script type="module" src="/src/main.ts"></script> -->
   </body>
 </html>

@@ -15030,6 +15030,8 @@ const imageFeedback = document.getElementById("image-feedback");
 const firstName = document.getElementById("first-name");
 const bio = document.getElementById("bio");
 const lastName = document.getElementById("last-name");
+const dob = document.getElementById("dob");
+const postcode = document.getElementById("postcode");
 const displayName = document.getElementById("display-name");
 const phone = document.getElementById("phone");
 const email = document.getElementById("email");
@@ -15067,6 +15069,8 @@ var selector = /* @__PURE__ */ Object.freeze({
   firstName,
   bio,
   lastName,
+  dob,
+  postcode,
   displayName,
   phone,
   email,
@@ -15088,7 +15092,7 @@ const lifestyle = document.getElementsByClassName("lifestyle-item");
 const job = document.getElementsByClassName("job-item");
 const cpItem = document.getElementsByClassName("collection-page-item");
 const getCurrentPro = () => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p;
   const listElements = Array.from(cpItem[0].children);
   const img = listElements[13];
   return {
@@ -15097,34 +15101,36 @@ const getCurrentPro = () => {
     bio: ((_c = listElements[2]) == null ? void 0 : _c.innerText) || "",
     phone: ((_d = listElements[3]) == null ? void 0 : _d.innerText) || "",
     postCode: ((_e = listElements[4]) == null ? void 0 : _e.innerText) || "",
-    street: ((_f = listElements[5]) == null ? void 0 : _f.innerText) || "",
-    website: ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
-    itemId: ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
-    "selected-lifestyles": ((_i = listElements[8]) == null ? void 0 : _i.innerText) || "",
-    "selected-categories": ((_j = listElements[9]) == null ? void 0 : _j.innerText) || "",
-    jobTitle: ((_k = listElements[10]) == null ? void 0 : _k.innerText) || "",
-    job: ((_l = listElements[11]) == null ? void 0 : _l.innerText) || "",
-    "selected-side-effects": ((_m = listElements[12]) == null ? void 0 : _m.innerText) || "",
+    website: ((_f = listElements[5]) == null ? void 0 : _f.innerText) || "",
+    itemId: ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
+    "selected-lifestyles": ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
+    "selected-categories": ((_i = listElements[8]) == null ? void 0 : _i.innerText) || "",
+    jobTitle: ((_j = listElements[9]) == null ? void 0 : _j.innerText) || "",
+    job: ((_k = listElements[10]) == null ? void 0 : _k.innerText) || "",
+    "selected-side-effects": ((_l = listElements[11]) == null ? void 0 : _l.innerText) || "",
     image: (img == null ? void 0 : img.src) || "",
-    email: ((_n = listElements[14]) == null ? void 0 : _n.innerText) || "",
-    address: ((_o = listElements[15]) == null ? void 0 : _o.innerText) || "",
-    displayName: ((_p = listElements[16]) == null ? void 0 : _p.innerText) || "",
-    directoryId: ((_q = listElements[17]) == null ? void 0 : _q.innerText) || ""
+    email: ((_m = listElements[13]) == null ? void 0 : _m.innerText) || "",
+    address: ((_n = listElements[14]) == null ? void 0 : _n.innerText) || "",
+    displayName: ((_o = listElements[15]) == null ? void 0 : _o.innerText) || "",
+    directoryId: ((_p = listElements[16]) == null ? void 0 : _p.innerText) || ""
   };
 };
 const getCurrentUser = () => {
-  var _a, _b, _c, _d, _e, _f, _g, _h, _i;
+  var _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l;
   const listElements = Array.from(cpItem[0].children);
   return {
     firstName: ((_a = listElements[0]) == null ? void 0 : _a.innerText) || "",
     lastName: ((_b = listElements[1]) == null ? void 0 : _b.innerText) || "",
     gender: ((_c = listElements[2]) == null ? void 0 : _c.innerText) || "",
-    phone: ((_d = listElements[3]) == null ? void 0 : _d.innerText) || "",
-    cancerStage: ((_e = listElements[4]) == null ? void 0 : _e.innerText) || "",
-    cancerType: ((_f = listElements[5]) == null ? void 0 : _f.innerText) || "",
-    "selected-side-effects": ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
-    "selected-categories": ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
-    email: ((_i = listElements[8]) == null ? void 0 : _i.innerText) || ""
+    cancerStage: ((_d = listElements[3]) == null ? void 0 : _d.innerText) || "",
+    cancerType: ((_e = listElements[4]) == null ? void 0 : _e.innerText) || "",
+    "selected-side-effects": ((_f = listElements[5]) == null ? void 0 : _f.innerText) || "",
+    "selected-categories": ((_g = listElements[6]) == null ? void 0 : _g.innerText) || "",
+    email: ((_h = listElements[7]) == null ? void 0 : _h.innerText) || "",
+    dob: ((_i = listElements[8]) == null ? void 0 : _i.innerText) || "",
+    postcode: ((_j = listElements[9]) == null ? void 0 : _j.innerText) || "",
+    treatmentType: ((_k = listElements[10]) == null ? void 0 : _k.innerText) || "",
+    treatmentStage: ((_l = listElements[11]) == null ? void 0 : _l.innerText) || ""
   };
 };
 var collection = /* @__PURE__ */ Object.freeze({
@@ -15279,7 +15285,7 @@ const mapCollectionCheckBox = (collection2, wrapper, type) => {
   });
 };
 const setDefaultInput = (input, value2) => {
-  if (value2) {
+  if (input && value2) {
     input.defaultValue = value2;
   }
 };
@@ -15821,16 +15827,44 @@ const submitProForm = async (event, memberstackId, webflowId, redirect = false, 
     enableButtons();
   }
 };
+const getTwoDigits = (value2) => value2 < 10 ? `0${value2}` : value2;
 const populateUserFormDefaults = () => {
   const user = getCurrentUser();
   setDefaultInput(firstName, user.firstName);
-  setDefaultInput(lastName, user.lastName);
-  setDefaultInput(phone, user.phone);
   setDefaultInput(email, user.email);
+  setDefaultInput(postcode, user.postcode);
+  const date = new Date(user.dob);
+  const day = getTwoDigits(date.getDate());
+  const month = getTwoDigits(date.getMonth() + 1);
+  const year = date.getFullYear();
+  const formatDate = `${year}-${month}-${day}`;
+  setDefaultInput(dob, formatDate);
   setDefaultOption(gender, user.gender);
   setDefaultOption(cancerType$1, user.cancerType);
   setDefaultOption(cancerStage$1, user.cancerStage);
+  setDefaultOption(treatmentType$1, user.treatmentType);
+  setDefaultOption(treatmentStage$1, user.treatmentStage);
   setDefaultCheckboxes(sideEffectWrapper, user["selected-side-effects"].split(","));
+  const selectedCategories = user["selected-categories"].split(",");
+  Object.values(category).map((el) => {
+    const value2 = el.children[1].innerText;
+    const type = el.children[2].innerText;
+    switch (type) {
+      case "Eat":
+        if (selectedCategories.includes(value2)) {
+          setDefaultOption(eat, value2);
+        }
+        break;
+      case "Move":
+        if (selectedCategories.includes(value2)) {
+          setDefaultOption(move, value2);
+        }
+        break;
+      case "Live":
+        setDefaultCheckboxes(liveWrapper, selectedCategories);
+        break;
+    }
+  });
 };
 const populateProFormDefaults = () => {
   const pro = getCurrentPro();
@@ -15888,4 +15922,8 @@ const createLoader = () => {
   });
   animation.play();
 };
-export { api$1 as api, cf, collection, createLoader, createProFormFields, createUserFormFields, getFields as gf, initMap, mapProFieldToBody, mapUserFieldToBody, populateProFormDefaults, populateUserFormDefaults, selector, setAutoComplete, setLocation, submitProForm, submitUserForm, upload };
+const restrictAccess = (id) => {
+  if (!window.location.href.includes(id))
+    ;
+};
+export { api$1 as api, cf, collection, createLoader, createProFormFields, createUserFormFields, getFields as gf, initMap, mapProFieldToBody, mapUserFieldToBody, populateProFormDefaults, populateUserFormDefaults, restrictAccess, selector, setAutoComplete, setLocation, submitProForm, submitUserForm, upload };

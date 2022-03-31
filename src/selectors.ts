@@ -67,6 +67,8 @@ export const bio = document.getElementById("bio") as HTMLInputElement;
 export const lastName = document.getElementById(
   "last-name"
 ) as HTMLInputElement;
+export const dob = document.getElementById("dob") as HTMLInputElement;
+export const postcode = document.getElementById("postcode") as HTMLInputElement;
 export const displayName = document.getElementById(
   "display-name"
 ) as HTMLInputElement;
