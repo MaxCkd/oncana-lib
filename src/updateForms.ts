@@ -21,13 +21,15 @@ export const mapUserFieldToBody = (): Partial<UpdateUserData> => {
     gender: uniSelect(elements["gender"].options) || "",
     dob: elements["dob"]?.value || "",
     postcode: elements["postcode"]?.value || "",
-    "cancer-type": uniSelect(elements["cancer-type"]?.options) || "",
-    "cancer-stage": uniSelect(elements["cancer-stage"]?.options) || "",
-    "treatment-type": uniSelect(elements["treatment-type"]?.options) || "",
-    "treatment-stage": uniSelect(elements["treatment-stage"]?.options) || "",
+    "cancer-type": uniSelect(elements["select-cancer-type"]?.options) || "",
+    "cancer-stage": uniSelect(elements["select-cancer-stage"]?.options) || "",
+    "treatment-type":
+      uniSelect(elements["select-treatment-type"]?.options) || "",
+    "treatment-stage":
+      uniSelect(elements["select-treatment-stage"]?.options) || "",
     "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
-    eat: uniSelect(elements["eat"]?.options) || "",
-    move: uniSelect(elements["move"]?.options) || "",
+    eat: uniSelect(elements["select-eat"]?.options) || "",
+    move: uniSelect(elements["select-move"]?.options) || "",
     live: multiCheckboxFromEl(checkboxes, "live"),
   };
 
@@ -52,7 +54,7 @@ export const mapProFieldToBody = (): Partial<UpdateProData> => {
     "last-name": elements["last-name"]?.value || "",
     bio: elements["bio"]?.value || "",
     email: elements["email"]?.value || "",
-    job: uniSelect(elements["job"]?.options) || "",
+    job: uniSelect(elements["select-job"]?.options) || "",
     "job-title": elements["job-title"]?.value || "",
     phone: elements["phone"]?.value || "",
     website: elements["website"]?.value || "",

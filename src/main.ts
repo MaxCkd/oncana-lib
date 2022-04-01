@@ -1,5 +1,5 @@
 // Types
-import { ProFormElements } from "./Types/type";
+import { Categories, ProFormElements } from "./Types/type";
 import bodymovin from "lottie-web";
 
 // Imports
@@ -72,7 +72,7 @@ export const createUserFormFields = () => {
 
 const validateUserForm = () => {
   if (!selector.firstName?.value) {
-    state.showError("First Name is required");
+    state.showError("A First Name is required");
     return false;
   }
   return true;
@@ -262,28 +262,28 @@ export const populateUserFormDefaults = () => {
 
   // For categories
   const selectedCategories = user["selected-categories"].split(",");
-  Object.values(collection.category).map((el: any) => {
-    // const name = el.children[0].innerText;
-    const value = el.children[1].innerText;
-    const type = el.children[2].innerText;
-    switch (type) {
-      case "Eat":
-        if (selectedCategories.includes(value)) {
-          cf.setDefaultOption(selector.eat, value);
-        }
-        break;
-      case "Move":
-        if (selectedCategories.includes(value)) {
-          cf.setDefaultOption(selector.move, value);
-        }
-        break;
-      case "Live":
-        cf.setDefaultCheckboxes(selector.liveWrapper, selectedCategories);
-        break;
-      default:
-        break;
-    }
-  });
+  const catByType = Object.values(collection.category).reduce(
+    (acc, el: any) => {
+      const value: string = el.children[1].innerText;
+      const type: Categories = el.children[2].innerText;
+      if (type && value) {
+        return { ...acc, [type]: [...acc[type], value] };
+      }
+      return { ...acc };
+    },
+    { Eat: [], Live: [], Move: [] } as { [key in Categories]: string[] }
+  );
+  const eat = catByType["Eat"];
+  const eatValue = eat.find((e) => selectedCategories.includes(e));
+  eatValue && cf.setDefaultOption(selector.eat, eatValue);
+
+  const move = catByType["Move"];
+  const moveValue = move.find((e) => selectedCategories.includes(e));
+  moveValue && cf.setDefaultOption(selector.move, moveValue);
+
+  const live = catByType["Live"];
+  const liveValue = live.filter((e) => selectedCategories.includes(e));
+  cf.setDefaultCheckboxes(selector.liveWrapper, liveValue);
 };
 
 export const populateProFormDefaults = () => {
@@ -392,9 +392,9 @@ export const createLoader = () => {
   animation.play();
 };
 
-export const restrictAccess = (id: string) => {
+export const restrictAccess = (memberStackId: string) => {
   // redirect if not the user
-  if (!window.location.href.includes(id)) {
-    // redirect
+  if (!window.location.href.includes(memberStackId)) {
+    window.location.replace(window.location.origin);
   }
 };

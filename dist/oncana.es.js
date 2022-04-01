@@ -1,3 +1,22 @@
+var __defProp = Object.defineProperty;
+var __defProps = Object.defineProperties;
+var __getOwnPropDescs = Object.getOwnPropertyDescriptors;
+var __getOwnPropSymbols = Object.getOwnPropertySymbols;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __propIsEnum = Object.prototype.propertyIsEnumerable;
+var __defNormalProp = (obj, key2, value2) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value: value2 }) : obj[key2] = value2;
+var __spreadValues = (a, b) => {
+  for (var prop in b || (b = {}))
+    if (__hasOwnProp.call(b, prop))
+      __defNormalProp(a, prop, b[prop]);
+  if (__getOwnPropSymbols)
+    for (var prop of __getOwnPropSymbols(b)) {
+      if (__propIsEnum.call(b, prop))
+        __defNormalProp(a, prop, b[prop]);
+    }
+  return a;
+};
+var __spreadProps = (a, b) => __defProps(a, __getOwnPropDescs(b));
 var commonjsGlobal = typeof globalThis !== "undefined" ? globalThis : typeof window !== "undefined" ? window : typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : {};
 var lottie = { exports: {} };
 (function(module, exports) {
@@ -15383,13 +15402,13 @@ const mapUserFieldToBody = () => {
     gender: uniSelect(elements["gender"].options) || "",
     dob: ((_c = elements["dob"]) == null ? void 0 : _c.value) || "",
     postcode: ((_d = elements["postcode"]) == null ? void 0 : _d.value) || "",
-    "cancer-type": uniSelect((_e = elements["cancer-type"]) == null ? void 0 : _e.options) || "",
-    "cancer-stage": uniSelect((_f = elements["cancer-stage"]) == null ? void 0 : _f.options) || "",
-    "treatment-type": uniSelect((_g = elements["treatment-type"]) == null ? void 0 : _g.options) || "",
-    "treatment-stage": uniSelect((_h = elements["treatment-stage"]) == null ? void 0 : _h.options) || "",
+    "cancer-type": uniSelect((_e = elements["select-cancer-type"]) == null ? void 0 : _e.options) || "",
+    "cancer-stage": uniSelect((_f = elements["select-cancer-stage"]) == null ? void 0 : _f.options) || "",
+    "treatment-type": uniSelect((_g = elements["select-treatment-type"]) == null ? void 0 : _g.options) || "",
+    "treatment-stage": uniSelect((_h = elements["select-treatment-stage"]) == null ? void 0 : _h.options) || "",
     "side-effects": multiCheckboxFromEl(checkboxes, "side-effect"),
-    eat: uniSelect((_i = elements["eat"]) == null ? void 0 : _i.options) || "",
-    move: uniSelect((_j = elements["move"]) == null ? void 0 : _j.options) || "",
+    eat: uniSelect((_i = elements["select-eat"]) == null ? void 0 : _i.options) || "",
+    move: uniSelect((_j = elements["select-move"]) == null ? void 0 : _j.options) || "",
     live: multiCheckboxFromEl(checkboxes, "live")
   };
   return body;
@@ -15404,7 +15423,7 @@ const mapProFieldToBody = () => {
     "last-name": ((_c = elements["last-name"]) == null ? void 0 : _c.value) || "",
     bio: ((_d = elements["bio"]) == null ? void 0 : _d.value) || "",
     email: ((_e = elements["email"]) == null ? void 0 : _e.value) || "",
-    job: uniSelect((_f = elements["job"]) == null ? void 0 : _f.options) || "",
+    job: uniSelect((_f = elements["select-job"]) == null ? void 0 : _f.options) || "",
     "job-title": ((_g = elements["job-title"]) == null ? void 0 : _g.value) || "",
     phone: ((_h = elements["phone"]) == null ? void 0 : _h.value) || "",
     website: ((_i = elements["website"]) == null ? void 0 : _i.value) || "",
@@ -15710,7 +15729,7 @@ const createUserFormFields = () => {
 };
 const validateUserForm = () => {
   if (!(firstName == null ? void 0 : firstName.value)) {
-    showError("First Name is required");
+    showError("A First Name is required");
     return false;
   }
   return true;
@@ -15846,25 +15865,23 @@ const populateUserFormDefaults = () => {
   setDefaultOption(treatmentStage$1, user.treatmentStage);
   setDefaultCheckboxes(sideEffectWrapper, user["selected-side-effects"].split(","));
   const selectedCategories = user["selected-categories"].split(",");
-  Object.values(category).map((el) => {
+  const catByType = Object.values(category).reduce((acc, el) => {
     const value2 = el.children[1].innerText;
     const type = el.children[2].innerText;
-    switch (type) {
-      case "Eat":
-        if (selectedCategories.includes(value2)) {
-          setDefaultOption(eat, value2);
-        }
-        break;
-      case "Move":
-        if (selectedCategories.includes(value2)) {
-          setDefaultOption(move, value2);
-        }
-        break;
-      case "Live":
-        setDefaultCheckboxes(liveWrapper, selectedCategories);
-        break;
+    if (type && value2) {
+      return __spreadProps(__spreadValues({}, acc), { [type]: [...acc[type], value2] });
     }
-  });
+    return __spreadValues({}, acc);
+  }, { Eat: [], Live: [], Move: [] });
+  const eat$1 = catByType["Eat"];
+  const eatValue = eat$1.find((e) => selectedCategories.includes(e));
+  eatValue && setDefaultOption(eat, eatValue);
+  const move$1 = catByType["Move"];
+  const moveValue = move$1.find((e) => selectedCategories.includes(e));
+  moveValue && setDefaultOption(move, moveValue);
+  const live = catByType["Live"];
+  const liveValue = live.filter((e) => selectedCategories.includes(e));
+  setDefaultCheckboxes(liveWrapper, liveValue);
 };
 const populateProFormDefaults = () => {
   const pro = getCurrentPro();
@@ -15922,8 +15939,9 @@ const createLoader = () => {
   });
   animation.play();
 };
-const restrictAccess = (id) => {
-  if (!window.location.href.includes(id))
-    ;
+const restrictAccess = (memberStackId) => {
+  if (!window.location.href.includes(memberStackId)) {
+    window.location.replace(window.location.origin);
+  }
 };
 export { api$1 as api, cf, collection, createLoader, createProFormFields, createUserFormFields, getFields as gf, initMap, mapProFieldToBody, mapUserFieldToBody, populateProFormDefaults, populateUserFormDefaults, restrictAccess, selector, setAutoComplete, setLocation, submitProForm, submitUserForm, upload };

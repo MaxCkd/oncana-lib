@@ -23,25 +23,26 @@ export interface Collections {
   oncanaCategories: { items: Item[] };
 }
 
+export type Categories = "Eat" | "Move" | "Live";
 export interface UserFormElements extends HTMLFormControlsCollection {
   "first-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   dob: HTMLInputElement;
   postcode: HTMLInputElement;
   gender: HTMLSelectElement;
-  "cancer-type": HTMLSelectElement;
-  "cancer-stage": HTMLSelectElement;
-  "treatment-type": HTMLSelectElement;
-  "treatment-stage": HTMLSelectElement;
-  eat: HTMLSelectElement;
-  move: HTMLSelectElement;
+  "select-cancer-type": HTMLSelectElement;
+  "select-cancer-stage": HTMLSelectElement;
+  "select-treatment-type": HTMLSelectElement;
+  "select-treatment-stage": HTMLSelectElement;
+  "select-eat": HTMLSelectElement;
+  "select-move": HTMLSelectElement;
 }
 export interface ProFormElements extends HTMLFormControlsCollection {
   "first-name": HTMLInputElement;
   "display-name": HTMLInputElement;
   "last-name": HTMLInputElement;
   picture: HTMLInputElement;
-  job: HTMLSelectElement;
+  "select-job": HTMLSelectElement;
   "job-title": HTMLInputElement;
   bio: HTMLTextAreaElement;
   address: HTMLInputElement;
